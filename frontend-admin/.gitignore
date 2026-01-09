@@ -1,0 +1,79 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Framework build/output folders
+.next
+.nuxt
+.out
+.build
+build
+.tmp
+.temp
+
+# Caches
+.cache
+.parcel-cache
+.rpt2_cache
+.next/cache
+.pnp.cjs
+.pnp.js
+.eslintcache
+
+# Test and coverage
+coverage
+.nyc_output
+jest-test-results.json
+test-results.xml
+
+# TypeScript
+*.tsbuildinfo
+
+# Miscellaneous packages
+.sass-cache
+bower_components
+jspm_packages
+
+# Secrets and certificates
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Deployment and hosting
+.vercel
+.vercel/out
+.netlify
+.firebase
+.serverless
+
+# OS files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
