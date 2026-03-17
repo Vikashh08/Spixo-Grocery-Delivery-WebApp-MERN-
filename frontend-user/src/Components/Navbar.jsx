@@ -1,162 +1,173 @@
-import { useState } from "react";
-import { AiOutlineShoppingCart, AiOutlineSearch } from "react-icons/ai";
-import { RxPerson } from "react-icons/rx";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext.jsx";
 import { useCart } from "../context/CartContext";
-import { useAuth } from "../context/AuthContext";
-import logo from '../assets/logo.png';
 
 function Navbar() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { cartItems } = useCart() || { cartItems: [] };
-  const { isLoggedIn, logout } = useAuth() || { isLoggedIn: false };
+  const { user, logout, isLoggedIn } = useAuth();
+  const { cartItems } = useCart();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/products?q=${searchQuery}`);
-    } else {
-      navigate("/products");
-    }
-    setMobileMenuOpen(false);
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const cartCount = cartItems.reduce((acc, i) => acc + i.quantity, 0);
 
   const handleLogout = () => {
     logout();
-    setMobileMenuOpen(false);
-    navigate("/");
+    navigate("/login");
+    setMenuOpen(false);
   };
 
+  const navLinks = [
+    { path: "/", label: "Home" },
+    { path: "/products", label: "Shop" },
+    { path: "/orders", label: "Orders" },
+  ];
+
   return (
-    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-100 shadow-lg">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4 gap-4">
-        {/* Logo */}
-        <Link to="/" className="flex items-center text-2xl font-serif font-bold text-stone-800 tracking-tight shrink-0">
-          <img src={logo} alt="Spixo Logo" className="inline-block w-8 h-8 mr-2" />
-          <span className="text-red-600">Spixo</span>
-        </Link>
-
-        {/* Search Bar (desktop) */}
-        <form onSubmit={handleSearch} className="relative flex-1 max-w-xl mx-4 hidden md:block">
-          <button type="submit" className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-emerald-700 transition-colors">
-            <AiOutlineSearch size={20} />
-          </button>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search for organic kale, fresh milk..."
-            className="w-full bg-stone-50 border border-stone-100 px-12 py-2.5 rounded-full text-sm outline-none focus:ring-4 focus:ring-emerald-700/5 focus:bg-white focus:border-emerald-700/20 transition-all duration-300 placeholder:text-stone-300"
-          />
-        </form>
-
-        {/* Actions */}
-        <div className="flex items-center gap-4 shrink-0">
-          <Link to="/products" className="text-sm font-semibold text-stone-600 hover:text-emerald-700 hidden sm:block hover:border-b hover:bg-red-100 p-2 rounded-2xl">
-            Shop
+    <nav 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${
+        isScrolled 
+          ? "bg-white/80 backdrop-blur-2xl border-stone-200 py-3 shadow-xl shadow-stone-200/20" 
+          : "bg-transparent border-transparent py-5"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        {/* Logo Section */}
+        <div className="flex items-center gap-8">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 bg-stone-900 rounded-2xl flex items-center justify-center group-hover:bg-green-500 transition-all duration-500 shadow-xl shadow-stone-900/10">
+              <span className="text-white font-black text-lg">S</span>
+            </div>
+            <div className="flex flex-col">
+              <span className={`text-xl font-serif font-bold tracking-tight transition-colors ${isScrolled || location.pathname !== "/" ? "text-stone-900" : "text-white"}`}>Spixo</span>
+              <span className="text-[9px] text-green-500 font-black uppercase tracking-[0.2em]">Hyperlocal</span>
+            </div>
           </Link>
 
-          {!isLoggedIn ? (
-            <Link to="/login" className="items-center gap-2 text-sm font-semibold text-stone-600 hover:text-emerald-700 hover:border-b hover:bg-red-100 p-2 rounded-2xl hidden lg:flex">
-              <RxPerson size={18} /> <span className="hidden lg:inline">Sign In</span>
-            </Link>
-          ) : (
-            <div className="hidden lg:flex items-center gap-6">
-              <Link to="/orders" className="text-sm font-semibold text-stone-600 hover:text-emerald-700 hover:border-b hover:bg-red-100 p-2 rounded-2xl">My Orders</Link>
-              <button
-                onClick={handleLogout}
-                className="text-xs font-bold text-red-600 uppercase tracking-tighter hover:text-red-600 transition-colors cursor-pointer hover:border-b hover:bg-red-100 p-2 rounded-2xl"
+          {/* Desktop Nav Links */}
+          <div className="hidden lg:flex items-center gap-6 ml-4">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`text-[11px] font-black uppercase tracking-[0.2em] transition-all hover:tracking-[0.3em] ${
+                  location.pathname === link.path 
+                    ? "text-green-500" 
+                    : isScrolled || location.pathname !== "/" ? "text-stone-400 hover:text-stone-900" : "text-white/60 hover:text-white"
+                }`}
               >
-                Logout
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Right Actions */}
+        <div className="flex items-center gap-4">
+          <span className={`hidden sm:block text-[9px] font-black px-4 py-2 rounded-full uppercase tracking-widest border transition-all ${
+            isScrolled || location.pathname !== "/"
+              ? "text-green-600 bg-stone-50 border-green-100 shadow-sm"
+              : "text-white bg-white/10 border-white/20"
+          }`}>
+            Priority Dispatch
+          </span>
+
+          {isLoggedIn ? (
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => navigate("/cart")}
+                className={`relative flex items-center gap-3 px-6 py-3 rounded-2xl transition-all active:scale-95 shadow-lg group ${
+                  isScrolled || location.pathname !== "/"
+                    ? "bg-stone-900 text-white shadow-stone-900/20"
+                    : "bg-white text-stone-900 shadow-white/10"
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="group-hover:rotate-12 transition-transform"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+                <span className="text-[11px] font-black uppercase tracking-widest">Cart</span>
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-green-500 text-white text-[10px] font-black w-6 h-6 flex items-center justify-center rounded-full border-4 border-white shadow-lg">
+                    {cartCount}
+                  </span>
+                )}
+              </button>
+
+              {/* Profile/Menu Trigger */}
+              <button 
+                onClick={() => setMenuOpen(!menuOpen)}
+                className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all active:scale-90 border overflow-hidden ${
+                  isScrolled || location.pathname !== "/"
+                    ? "bg-stone-50 border-stone-100 text-stone-900"
+                    : "bg-white/10 border-white/20 text-white"
+                }`}
+              >
+                {user?.profileImage ? (
+                  <img src={user.profileImage} alt="" className="w-full h-full object-cover" />
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                )}
               </button>
             </div>
+          ) : (
+            <div className="flex items-center gap-6">
+              <Link
+                to="/login"
+                className={`text-[11px] font-black uppercase tracking-widest transition-colors ${
+                  isScrolled || location.pathname !== "/" ? "text-stone-400 hover:text-stone-900" : "text-white/60 hover:text-white"
+                }`}
+              >
+                Sign in
+              </Link>
+              <Link
+                to="/register"
+                className={`px-8 py-3.5 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all active:scale-95 shadow-xl ${
+                  isScrolled || location.pathname !== "/"
+                    ? "bg-stone-900 text-white shadow-stone-900/20"
+                    : "bg-white text-stone-900 shadow-white/10"
+                }`}
+              >
+                Join
+              </Link>
+            </div>
           )}
-
-          {/* Cart */}
-          <Link to="/cart" className="relative p-2.5 bg-stone-50 rounded-full hover:bg-stone-100 transition-all group" onClick={() => setMobileMenuOpen(false)}>
-            <AiOutlineShoppingCart size={22} className="text-stone-700 group-hover:text-emerald-800" />
-            {cartItems.length > 0 && (
-              <span className="absolute -top-1 -right-1 bg-emerald-700 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white shadow-sm">
-                {cartItems.length}
-              </span>
-            )}
-          </Link>
-
-          {/* Mobile menu toggle */}
-          <button
-            type="button"
-            className="md:hidden p-2.5 rounded-full bg-stone-50 hover:bg-stone-100"
-            onClick={() => setMobileMenuOpen((s) => !s)}
-            aria-expanded={mobileMenuOpen}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-stone-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-stone-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
-          </button>
         </div>
       </div>
 
-      {/* Mobile menu contents (links + auth + cart) */}
-      {mobileMenuOpen && (
-        <div className="md:hidden px-6 pb-4 border-t border-stone-100 bg-white/80 backdrop-blur-md">
-          <div className="flex flex-col gap-3">
-            <Link to="/products" onClick={() => setMobileMenuOpen(false)} className="text-sm font-semibold text-stone-700 p-3 rounded-lg hover:bg-stone-50">
-              Shop
+      {/* Modern Side/Mobile Menu Overlay */}
+      {menuOpen && isLoggedIn && (
+        <div className="absolute top-full right-6 mt-4 w-64 bg-white rounded-[2.5rem] shadow-2xl border border-stone-100 overflow-hidden transform origin-top-right transition-all">
+          <div className="p-6 border-b border-stone-50">
+            <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Signed in as</p>
+            <p className="font-serif font-bold text-stone-900 truncate">{user?.name || "Member"}</p>
+          </div>
+          <div className="p-4">
+            <Link 
+              to="/profile" 
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center gap-4 px-4 py-3.5 rounded-2xl text-stone-600 hover:bg-stone-50 hover:text-stone-900 transition-all font-bold text-sm"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+              Settings
             </Link>
-
-            {!isLoggedIn ? (
-              <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-sm font-semibold text-stone-700 p-3 rounded-lg hover:bg-stone-50">
-                <RxPerson size={18} /> Sign In
-              </Link>
-            ) : (
-              <>
-                <Link to="/orders" onClick={() => setMobileMenuOpen(false)} className="text-sm font-semibold text-stone-700 p-3 rounded-lg hover:bg-stone-50">
-                  My Orders
-                </Link>
-                <button onClick={handleLogout} className="text-sm font-semibold text-red-600 text-left p-3 rounded-lg hover:bg-stone-50">
-                  Logout
-                </button>
-              </>
-            )}
-
-            <Link to="/cart" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between gap-2 text-sm font-semibold text-stone-700 p-3 rounded-lg hover:bg-stone-50">
-              <div className="flex items-center gap-2">
-                <AiOutlineShoppingCart size={18} /> Cart
-              </div>
-              {cartItems.length > 0 && (
-                <span className="bg-emerald-700 text-white text-xs font-bold px-2 py-1 rounded-full">
-                  {cartItems.length}
-                </span>
-              )}
-            </Link>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-4 w-full px-4 py-3.5 rounded-2xl text-rose-500 hover:bg-rose-50 transition-all font-bold text-sm"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sign Out
+            </button>
           </div>
         </div>
       )}
-
-      {/* Mobile Search Bar Submission */}
-      <form onSubmit={handleSearch} className="md:hidden px-6 pb-4">
-        <div className="relative w-full">
-          <button type="submit" className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400">
-            <AiOutlineSearch size={18} />
-          </button>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search products..."
-            className="w-full bg-stone-50 border border-stone-100 px-10 py-2 rounded-2xl text-sm outline-none"
-          />
-        </div>
-      </form>
     </nav>
   );
 }

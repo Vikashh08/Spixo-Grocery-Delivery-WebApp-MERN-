@@ -1,0 +1,39 @@
+# Dependency directories
+node_modules/
+backend/node_modules/
+frontend-user/node_modules/
+frontend-admin/node_modules/
+frontend-delivery/node_modules/
+
+# Build and output
+dist/
+backend/dist/
+frontend-user/dist/
+frontend-admin/dist/
+frontend-delivery/dist/
+build/
+backend/build/
+frontend-user/build/
+frontend-admin/build/
+frontend-delivery/build/
+
+# Environment files
+.env
+.env.*
+backend/.env
+frontend-user/.env
+frontend-admin/.env
+frontend-delivery/.env
+
+# OS files
+.DS_Store
+Thumbs.db
+*/.DS_Store
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*/.vscode/
+*/.idea/

@@ -12,13 +12,18 @@ const addressSchema = new mongoose.Schema({
 });
 
 const userSchema = new mongoose.Schema({
-  name: String,
-  email: { type: String, unique: true },
+  name: { type: String, required: true },
+  email: { type: String, unique: true, required: true },
   phone: String,
+  password: String,          // null for Google-only accounts
+  googleId: String,          // null for email/password accounts
 
   role: { type: String, default: "USER" },
 
   addresses: [addressSchema],
+  
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
 
   createdAt: { type: Date, default: Date.now }
 });

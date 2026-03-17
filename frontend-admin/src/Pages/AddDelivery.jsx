@@ -12,12 +12,11 @@ function AddDelivery() {
   const submit = async (e) => {
     e.preventDefault();
     try {
-      // Correct Path: /api/delivery/create
       await api.post("/delivery/create", form); 
-      alert("Fleet partner onboarded successfully.");
+      alert("Delivery partner added successfully.");
       navigate("/");
     } catch (err) {
-      alert(err.response?.data?.message || "Onboarding failed.");
+      alert(err.response?.data?.message || "Failed to add partner.");
     }
   };
 
@@ -28,13 +27,13 @@ function AddDelivery() {
         <button onClick={() => navigate("/")} className="text-stone-400 hover:text-stone-800 mb-8 flex items-center gap-2 font-bold text-xs tracking-widest">
           <AiOutlineArrowLeft /> BACK
         </button>
-        <h2 className="text-3xl font-serif font-bold text-stone-800 mb-10">Onboard Partner</h2>
+        <h2 className="text-3xl font-serif font-bold text-stone-800 mb-10">Add Partner</h2>
         <form onSubmit={submit} className="space-y-6">
           <input name="name" placeholder="Partner Name" onChange={handleChange} className="w-full px-6 py-4 bg-stone-50 rounded-2xl outline-none" required />
           <input name="email" type="email" placeholder="Email" onChange={handleChange} className="w-full px-6 py-4 bg-stone-50 rounded-2xl outline-none" required />
           <input name="phone" placeholder="Phone" onChange={handleChange} className="w-full px-6 py-4 bg-stone-50 rounded-2xl outline-none" required />
-          <input name="password" type="password" placeholder="Temporary Key" onChange={handleChange} className="w-full px-6 py-4 bg-stone-50 rounded-2xl outline-none" required />
-          <button type="submit" className="w-full py-5 bg-stone-900 text-white font-bold rounded-2xl hover:bg-stone-800 transition-all">Generate Account</button>
+          <input name="password" type="password" placeholder="Temporary Password" onChange={handleChange} className="w-full px-6 py-4 bg-stone-50 rounded-2xl outline-none" required />
+          <button type="submit" className="w-full py-5 bg-stone-900 text-white font-bold rounded-2xl hover:bg-stone-800 transition-all">Create Account</button>
         </form>
       </div>
     </div>

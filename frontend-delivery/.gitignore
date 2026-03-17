@@ -12,13 +12,27 @@ dist
 dist-ssr
 *.local
 
-# Editor directories and files
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build/Output
+dist/
+dist-ssr/
+build/
+
+# IDE/Tooling
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
+.idea/
 *.suo
-*.ntvs*
-*.njsproj
 *.sln
 *.sw?
+.eslintcache
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
