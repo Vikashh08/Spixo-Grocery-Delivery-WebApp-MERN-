@@ -12,6 +12,8 @@ const api = axios.create({
   baseURL: getBaseURL()
 });
 
+console.log("🚀 API Base URL:", api.defaults.baseURL);
+
 api.interceptors.request.use((req) => {
   const token = localStorage.getItem("token");
   if (token) req.headers.Authorization = `Bearer ${token}`;

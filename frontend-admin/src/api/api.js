@@ -12,6 +12,8 @@ const api = axios.create({
   baseURL: getBaseURL(),
 });
 
+console.log("🚀 API Base URL:", api.defaults.baseURL);
+
 // Use the adminToken specifically for this project
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("adminToken"); 

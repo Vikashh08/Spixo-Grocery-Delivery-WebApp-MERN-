@@ -12,6 +12,8 @@ const api = axios.create({
   baseURL: getBaseURL(),
 });
 
+console.log("🚀 API Base URL:", api.defaults.baseURL);
+
 // Interceptor to attach the deliveryToken to every request
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("deliveryToken");

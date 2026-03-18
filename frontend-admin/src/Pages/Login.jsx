@@ -12,24 +12,9 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      // Try a few common admin login endpoints in case the API path differs
-      const endpoints = ["/admin/login", "/admin/auth/login", "/auth/admin/login", "/admin"];
-      let res = null;
-
-      for (const ep of endpoints) {
-        try {
-          res = await api.post(ep, { email, password });
-          // stop if we got a response that likely contains a token
-          if (res && (res.data?.token || res.data?.data?.token)) break;
-        } catch (err) {
-          // try next endpoint
-        }
-      }
-
-      if (!res) throw new Error("Login failed");
-
-      // Support multiple response shapes: { token } or { data: { token } }
+      const res = await api.post("/admin/login", { email, password });
       const token = res.data?.token || res.data?.data?.token;
+      
       if (!token) throw new Error("No token returned from server");
 
       // Store admin token
