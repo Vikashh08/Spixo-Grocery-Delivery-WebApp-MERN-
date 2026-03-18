@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5001/api", // Base points to root API
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5001/api",
 });
 
 // Interceptor to attach the deliveryToken to every request

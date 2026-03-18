@@ -5,7 +5,7 @@ import api from "../api/api";
 const SettingsContext = createContext();
 
 // Ensure the socket connects to the backend running on 5001
-const socket = io("http://localhost:5001");
+const socket = io(import.meta.env.VITE_SOCKET_URL || "http://localhost:5001");
 
 export function SettingsProvider({ children }) {
   const [settings, setSettings] = useState({
