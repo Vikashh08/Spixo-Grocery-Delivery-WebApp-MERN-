@@ -115,9 +115,14 @@ function UserLogin() {
            </div>
 
            {error && (
-             <div className="p-4 bg-rose-50 border border-rose-100 rounded-2xl flex items-center gap-3 text-rose-600 mb-6 animate-shake">
-                <AiOutlineCheckCircle className="rotate-180" size={20} />
-                <span className="text-sm font-bold">Authentication failed. Grab a fresh set of credentials.</span>
+             <div className="mb-8 flex justify-center animate-shake">
+               <div className="bg-white px-6 py-2.5 rounded-full border border-stone-100 shadow-[0_10px_40px_-10px_rgba(225,29,72,0.2)] flex items-center gap-3 relative overflow-hidden group">
+                 <div className="absolute inset-0 bg-gradient-to-r from-rose-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                 <div className="w-2 h-2 bg-rose-600 rounded-full animate-pulse" />
+                 <span className="text-[11px] font-black text-stone-800 uppercase tracking-widest">
+                    Incorrect email or password
+                 </span>
+               </div>
              </div>
            )}
 

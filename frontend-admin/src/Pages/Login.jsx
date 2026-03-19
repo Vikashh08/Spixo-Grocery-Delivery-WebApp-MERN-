@@ -58,9 +58,14 @@ function Login() {
           </div>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-2xl flex items-center gap-3 border border-red-100 animate-shake">
-              <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-ping shrink-0" />
-              <p className="text-[11px] font-black uppercase tracking-widest">Admin keys rejected. Security protocol active.</p>
+            <div className="mb-8 flex justify-center animate-shake">
+              <div className="bg-white px-6 py-2.5 rounded-full border border-stone-100 shadow-[0_10px_40px_-10px_rgba(220,38,38,0.2)] flex items-center gap-3 relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-r from-red-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse" />
+                <span className="text-[11px] font-black text-stone-800 uppercase tracking-widest">
+                  Invalid Keys: Security Protocol Active
+                </span>
+              </div>
             </div>
           )}
 
