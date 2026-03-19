@@ -8,6 +8,17 @@ function SupportMessages() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  const fetchMessages = async () => {
+    try {
+      const res = await api.get("/contact");
+      setMessages(res.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchMessages();
   }, []);
