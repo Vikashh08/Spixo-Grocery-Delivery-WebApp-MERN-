@@ -1,6 +1,8 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import DeliveryLogin from "./pages/DeliveryLogin";
-import DeliveryOrders from "./pages/DeliveryOrders";
+import DeliveryLogin from "./Pages/DeliveryLogin";
+
+import DeliveryOrders from "./Pages/DeliveryOrders";
+
 
 // This component checks for the token before allowing access
 const ProtectedFleetRoute = ({ children }) => {
