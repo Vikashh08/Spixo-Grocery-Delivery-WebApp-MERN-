@@ -11,8 +11,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg', 'offline.html', 'icons/pwa-512x512.svg'],
       manifest: {
-        name: 'Spixo Premium Delivery',
-        short_name: 'Spixo Premium',
+        name: 'Spixo - Delivery Partner',
+        short_name: 'Delivery Spixo',
         description: 'Elite delivery experience with Spixo.',
         theme_color: '#fca311',
         background_color: '#ffffff',
@@ -20,19 +20,19 @@ export default defineConfig({
         start_url: '/',
         icons: [
           {
-            src: 'icons/pwa-512x512.svg',
+            src: 'icons/pwa-192x192.png',
             sizes: '192x192',
-            type: 'image/svg+xml'
+            type: 'image/png'
           },
           {
-            src: 'icons/pwa-512x512.svg',
+            src: 'icons/pwa-512x512.png',
             sizes: '512x512',
-            type: 'image/svg+xml'
+            type: 'image/png'
           },
           {
-            src: 'icons/pwa-512x512.svg',
+            src: 'icons/pwa-512x512.png',
             sizes: '512x512',
-            type: 'image/svg+xml',
+            type: 'image/png',
             purpose: 'any maskable'
           }
         ]
