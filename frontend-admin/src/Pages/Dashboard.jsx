@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../api/api";
 import {
@@ -110,8 +110,9 @@ function Dashboard() {
   return (
     <div className="bg-[#F8F9FB] min-h-screen font-sans">
       {/* Top Navigation */}
-      <nav className="bg-white border-b border-stone-100 px-6 py-4 sticky top-0 z-50 flex justify-between items-center shadow-sm">
-        <div className="flex items-center gap-4">
+      {/* Top Navigation */}
+      <nav className="bg-white border-b border-stone-100 px-6 py-4 sticky top-0 z-50 flex flex-col sm:flex-row justify-between items-center gap-4 shadow-sm">
+        <div className="flex items-center gap-4 w-full sm:w-auto">
           <img src="/logo.ico" alt="Spixo" className="w-10 h-10 object-contain rounded-xl shadow-lg border border-stone-100" />
           <div>
             <h1 className="text-lg font-black text-stone-900 leading-none">Spixo Admin</h1>
@@ -119,15 +120,15 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto">
           <div className="flex items-center gap-3 bg-stone-50 px-4 py-2 rounded-2xl border border-stone-100">
             <span className={`w-2.5 h-2.5 rounded-full ${storeOpen ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'}`}></span>
-            <span className="text-[10px] font-bold text-stone-800 uppercase tracking-wider">
-              {storeOpen ? 'Store is Live' : 'Store is Closed'}
+            <span className="text-[10px] font-bold text-stone-800 uppercase tracking-wider whitespace-nowrap">
+              {storeOpen ? 'Store Live' : 'Closed'}
             </span>
             <button 
               onClick={toggleStore}
-              className={`w-12 h-6 rounded-full transition-all relative ${storeOpen ? 'bg-emerald-500' : 'bg-stone-300'}`}
+              className={`w-12 h-6 rounded-full transition-all relative shrink-0 ${storeOpen ? 'bg-emerald-500' : 'bg-stone-300'}`}
             >
               <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all shadow-sm ${storeOpen ? 'left-7' : 'left-1'}`}></div>
             </button>
@@ -148,11 +149,11 @@ function Dashboard() {
         
         {/* Welcome Section */}
         <header className="mb-12">
-          <h2 className="text-4xl font-black text-stone-900 tracking-tight mb-2">Welcome back, Partner!</h2>
-          <div className="flex items-center gap-3 text-stone-400 font-bold text-sm tracking-wide">
+          <h2 className="text-3xl md:text-4xl font-black text-stone-900 tracking-tight mb-2">Welcome back, Partner!</h2>
+          <div className="flex flex-wrap items-center gap-3 text-stone-400 font-bold text-xs tracking-wide">
             <AiOutlineThunderbolt className="text-amber-500" />
             <span>Store ID: SPIXO_MAINE_01</span>
-            <span className="text-stone-200">|</span>
+            <span className="hidden sm:inline text-stone-200">|</span>
             <span>{new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })}</span>
           </div>
         </header>
@@ -160,15 +161,15 @@ function Dashboard() {
         {loading ? (
           <div className="space-y-12">
             {/* Skeletons for Action Center */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {[1, 2, 3, 4].map(i => (
+            <div className="grid grid-cols-2 lg:grid-cols-5 gap-6">
+              {[1, 2, 3, 4, 5].map(i => (
                 <div key={i} className="h-44 bg-white border border-stone-100 rounded-[2.5rem] animate-pulse" />
               ))}
             </div>
             {/* Skeletons for Stats & Chart */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
               <div className="lg:col-span-8 space-y-8">
-                 <div className="grid grid-cols-3 gap-6">
+                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                     {[1, 2, 3].map(i => <div key={i} className="h-40 bg-white border border-stone-100 rounded-3xl animate-pulse" />)}
                  </div>
                  <div className="h-80 bg-white border border-stone-100 rounded-[3rem] animate-pulse" />
@@ -184,25 +185,25 @@ function Dashboard() {
                 <h3 className="text-[11px] font-black text-stone-400 uppercase tracking-[0.3em]">Action Center</h3>
                 <div className="h-px flex-1 bg-stone-100"></div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
                 {[
-                  { label: "New Order", icon: <AiOutlinePlusCircle size={28}/>, color: "bg-indigo-600", path: "/orders", desc: "Create direct order" },
-                  { label: "Add Product", icon: <AiOutlineShoppingCart size={28}/>, color: "bg-emerald-600", path: "/add-product", desc: "Add new item" },
-                  { label: "Manage Products", icon: <AiOutlineOrderedList size={28}/>, color: "bg-blue-600", path: "/products", desc: "Edit inventory" },
-                  { label: "Manage Fleet", icon: <AiOutlineTeam size={28}/>, color: "bg-amber-500", path: "/manage-delivery", desc: "Assign partners" },
-                  { label: "User Database", icon: <AiOutlineShop size={28}/>, color: "bg-stone-900", path: "/users", desc: "Customer records" },
+                  { label: "New Order", icon: <AiOutlinePlusCircle size={28}/>, color: "bg-indigo-600", path: "/orders", desc: "Direct order" },
+                  { label: "Product", icon: <AiOutlineShoppingCart size={28}/>, color: "bg-emerald-600", path: "/add-product", desc: "Add item" },
+                  { label: "Inventory", icon: <AiOutlineOrderedList size={28}/>, color: "bg-blue-600", path: "/products", desc: "Edit items" },
+                  { label: "Fleet", icon: <AiOutlineTeam size={28}/>, color: "bg-amber-500", path: "/manage-delivery", desc: "Staffing" },
+                  { label: "Users", icon: <AiOutlineShop size={28}/>, color: "bg-stone-900", path: "/users", desc: "Directory" },
                 ].map((item, idx) => (
                   <Link 
                     key={idx} 
                     to={item.path}
-                    className="bg-white rounded-[2.5rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group relative overflow-hidden flex flex-col items-center text-center gap-4"
+                    className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group relative overflow-hidden flex flex-col items-center text-center gap-4"
                   >
-                    <div className={`${item.color} text-white w-16 h-16 rounded-3xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform`}>
-                      {item.icon}
+                    <div className={`${item.color} text-white w-12 h-12 md:w-16 md:h-16 rounded-2xl md:rounded-3xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform`}>
+                      {React.cloneElement(item.icon, { size: window.innerWidth < 768 ? 20 : 28 })}
                     </div>
                     <div>
-                      <h4 className="text-lg font-black text-stone-900 leading-tight">{item.label}</h4>
-                      <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest mt-1">{item.desc}</p>
+                      <h4 className="text-sm md:text-lg font-black text-stone-900 leading-tight">{item.label}</h4>
+                      <p className="text-[9px] md:text-[10px] font-bold text-stone-400 uppercase tracking-widest mt-1">{item.desc}</p>
                     </div>
                   </Link>
                 ))}
@@ -310,53 +311,82 @@ function Dashboard() {
               {/* Right Sidebar */}
               <div className="lg:col-span-4 space-y-10">
                 
-                {/* Top Products - Blinkit Style Mini List */}
-                <div className={`bg-stone-900 rounded-[3rem] p-8 text-white relative overflow-hidden`}>
-                  <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-                    <AiOutlineShoppingCart size={120} />
+                {/* Market Buzz - High Energy Section */}
+                <div className="bg-gradient-to-br from-stone-900 via-stone-900 to-amber-900 rounded-[3rem] p-8 text-white relative overflow-hidden group border border-white/5">
+                  <div className="absolute top-0 right-0 p-8 opacity-20 pointer-events-none group-hover:scale-125 transition-transform duration-1000 rotate-12">
+                    <AiOutlineThunderbolt size={140} />
                   </div>
 
-                  <h3 className="text-2xl font-black tracking-tight mb-8 relative z-10">Market Buzz</h3>
+                  <div className="flex justify-between items-start mb-10 relative z-10">
+                    <div>
+                      <h3 className="text-3xl font-black tracking-tight leading-none mb-2">Market Buzz 🔥</h3>
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 bg-rose-500 rounded-full animate-ping"></span>
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-400">Extreme Demand Active</p>
+                      </div>
+                    </div>
+                  </div>
                   
                   <div className="space-y-6 relative z-10">
                     {stats?.topProducts?.map((p, idx) => (
-                      <div key={idx} className="flex items-center justify-between p-4 bg-white/5 rounded-3xl border border-white/5 hover:bg-white/10 transition-all">
-                        <div className="flex items-center gap-4">
-                          <div className="bg-amber-500 w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black">
-                            {idx + 1}
-                          </div>
-                          <div>
-                            <p className="font-black text-sm uppercase tracking-wide leading-none">{p.name || 'Unknown Item'}</p>
-                            <p className="text-[9px] font-bold text-white/40 uppercase tracking-widest mt-1.5 italic">{p.count} units sold</p>
+                      <div key={idx} className="flex items-center gap-5 p-4 bg-white/5 rounded-3xl border border-white/10 hover:bg-white/15 transition-all group/item shadow-2xl">
+                        <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center overflow-hidden flex-shrink-0 group-hover/item:scale-105 transition-transform border border-white/10">
+                          {p.image ? (
+                            <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                          ) : (
+                            <AiOutlineShoppingCart className="text-stone-300" size={24} />
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-black text-sm uppercase tracking-wide leading-none truncate mb-2">{p.name || 'Unknown Item'}</h4>
+                          <div className="flex items-center gap-3">
+                            <span className="text-[9px] font-black text-amber-400 uppercase tracking-widest">{p.count} Orders</span>
+                            <span className="w-1 h-1 bg-white/20 rounded-full" />
+                            <span className="text-[9px] font-bold text-white/40 uppercase tracking-widest">₹{p.revenue?.toLocaleString()}</span>
                           </div>
                         </div>
-                        <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_#10b981]"></div>
+                        <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_15px_#10b981]"></div>
                       </div>
                     ))}
                     {!stats?.topProducts?.length && (
-                      <p className="text-center py-10 opacity-30 italic">No sales data yet...</p>
+                      <div className="py-20 text-center space-y-4">
+                         <p className="text-white/20 italic text-sm">Detecting store energy...</p>
+                         <div className="flex justify-center gap-1">
+                            <div className="w-1 h-4 bg-white/10 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                            <div className="w-1 h-6 bg-white/20 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                            <div className="w-1 h-4 bg-white/10 rounded-full animate-bounce" />
+                         </div>
+                      </div>
                     )}
                   </div>
 
-                  <button onClick={() => navigate("/add-delivery")} className="mt-10 w-full py-5 bg-white text-stone-900 rounded-[1.8rem] font-black text-[11px] uppercase tracking-widest hover:bg-amber-500 hover:text-white transition-all shadow-xl active:scale-95 flex items-center justify-center gap-3">
-                    <AiOutlineUserAdd size={18} /> Recruit Partner
+                  <button 
+                    onClick={() => navigate("/products")} 
+                    className="mt-10 w-full py-5 bg-amber-500 text-white rounded-[1.8rem] font-black text-[11px] uppercase tracking-[0.2em] shadow-2xl shadow-amber-900/40 hover:bg-white hover:text-stone-900 transition-all active:scale-95 flex items-center justify-center gap-3"
+                  >
+                    Analyze Catalog <AiOutlineArrowUp className="rotate-45" size={18} />
                   </button>
                 </div>
 
-                {/* Store Health */}
-                <div className="bg-white rounded-[3rem] p-8 shadow-sm border border-stone-100 flex flex-col items-center">
-                  <div className="w-24 h-24 bg-indigo-50 rounded-[2.5rem] flex items-center justify-center mb-6 shadow-inner text-indigo-600">
-                    <AiOutlineAreaChart size={40} />
+                {/* System Pulse / Store Health */}
+                <div className="bg-white rounded-[3rem] p-10 shadow-sm border border-stone-100 flex flex-col items-center relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-stone-50 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="w-28 h-28 bg-stone-900 text-white rounded-[2.5rem] flex items-center justify-center mb-8 shadow-2xl relative z-10 group-hover:scale-110 transition-transform duration-700">
+                    <AiOutlineThunderbolt size={48} className="text-amber-400 group-hover:animate-pulse" />
                   </div>
-                  <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-[0.3em] mb-2 text-center">Store Health</h4>
-                  <p className="text-4xl font-black text-stone-900 mb-2 leading-none">94%</p>
-                  <p className="text-stone-400 text-xs font-bold text-center px-4 mb-8">Performance is optimal. All systems are running at standard capacity.</p>
-                  <div className="w-full bg-stone-50 rounded-2xl h-1.5 overflow-hidden mb-8">
-                     <div className="bg-emerald-500 h-full w-[94%]" />
+                  <div className="relative z-10 text-center">
+                    <h4 className="text-[10px] font-black text-stone-400 uppercase tracking-[0.4em] mb-3">System Pulse</h4>
+                    <p className="text-6xl font-black text-stone-900 mb-2 leading-none tracking-tighter">98.2</p>
+                    <p className="text-stone-400 text-[11px] font-bold px-4 mb-10 leading-relaxed tracking-wide">
+                      Your hyperlocal network is operating at peak efficiency. All clusters are synchronized.
+                    </p>
+                    <div className="w-full bg-stone-100 rounded-2xl h-1.5 overflow-hidden mb-8">
+                       <div className="bg-stone-900 h-full w-[98.2%] animate-in slide-in-from-left duration-1000" />
+                    </div>
+                    <button onClick={() => navigate("/settings")} className="w-full py-5 bg-stone-50 text-stone-900 border border-stone-100 rounded-3xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-stone-900 hover:text-white transition-all active:scale-95">
+                      Console Diagnostics
+                    </button>
                   </div>
-                  <button onClick={() => navigate("/settings")} className="w-full py-4 bg-stone-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:shadow-xl transition-all active:scale-95 whitespace-nowrap overflow-hidden">
-                    Diagnostic Overview
-                  </button>
                 </div>
               </div>
             </div>

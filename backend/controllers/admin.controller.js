@@ -52,13 +52,34 @@ export const getDashboardStats = async (req, res) => {
 
     const totalUsers = await User.countDocuments();
     
-    // Calculate top selling products (by volume)
+    // Calculate top selling products (by volume) with images and current info
     const topProducts = await Order.aggregate([
       { $match: { status: "DELIVERED" } },
       { $unwind: "$items" },
-      { $group: { _id: "$items.productId", name: { $first: "$items.name" }, count: { $sum: "$items.quantity" } } },
+      { $group: { 
+          _id: "$items.productId", 
+          name: { $first: "$items.name" }, 
+          count: { $sum: "$items.quantity" },
+          revenue: { $sum: { $multiply: ["$items.price", "$items.quantity"] } }
+      } },
       { $sort: { count: -1 } },
-      { $limit: 3 }
+      { $limit: 5 },
+      {
+        $lookup: {
+          from: "products",
+          localField: "_id",
+          foreignField: "_id",
+          as: "productDetails"
+        }
+      },
+      {
+        $addFields: {
+          image: { $arrayElemAt: ["$productDetails.image", 0] },
+          category: { $arrayElemAt: ["$productDetails.category", 0] },
+          price: { $arrayElemAt: ["$productDetails.price", 0] }
+        }
+      },
+      { $project: { productDetails: 0 } }
     ]);
 
     // Calculate 7-day revenue trend
