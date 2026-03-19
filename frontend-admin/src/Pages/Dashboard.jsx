@@ -191,7 +191,7 @@ function Dashboard() {
                   { label: "Product", icon: <AiOutlineShoppingCart size={28}/>, color: "bg-emerald-600", path: "/add-product", desc: "Add item" },
                   { label: "Edit Items", icon: <AiOutlineOrderedList size={28}/>, color: "bg-blue-600", path: "/products", desc: "Manage Catalog" },
                   { label: "Fleet", icon: <AiOutlineTeam size={28}/>, color: "bg-amber-500", path: "/manage-delivery", desc: "Staffing" },
-                  { label: "Users", icon: <AiOutlineShop size={28}/>, color: "bg-stone-900", path: "/users", desc: "Directory" },
+                  { label: "Support", icon: <AiOutlineMessage size={28}/>, color: "bg-rose-500", path: "/support", desc: "Inquiries" },
                 ].map((item, idx) => (
                   <Link 
                     key={idx} 

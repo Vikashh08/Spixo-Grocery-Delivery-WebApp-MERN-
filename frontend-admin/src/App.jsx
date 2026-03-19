@@ -8,6 +8,7 @@ import ManageProducts from "./Pages/ManageProducts";
 import Orders from "./Pages/Orders";
 import AddDelivery from "./Pages/AddDelivery";
 import ManageDelivery from "./Pages/ManageDelivery";
+import SupportMessages from "./Pages/SupportMessages";
 import Settings from "./Pages/Settings";
 import ManageUsers from "./Pages/ManageUsers";
 import { createContext, useContext, useState, useEffect } from "react";
@@ -38,6 +39,7 @@ function App() {
           <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
           <Route path="/add-delivery" element={<ProtectedRoute><AddDelivery /></ProtectedRoute>} />
           <Route path="/manage-delivery" element={<ProtectedRoute><ManageDelivery /></ProtectedRoute>} />
+          <Route path="/support" element={<ProtectedRoute><SupportMessages /></ProtectedRoute>} />
           <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
           <Route path="/users" element={<ProtectedRoute><ManageUsers /></ProtectedRoute>} />
         </Routes>
