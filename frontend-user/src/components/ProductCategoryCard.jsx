@@ -1,5 +1,5 @@
 import React from 'react'
-import AataRiceDal from '../assets/Categories/AataRiceDal.png'
+import AataRiceDal from '../../Categories/AataRiceDal.png'
 
 function ProductCategoryCard() {
   return (

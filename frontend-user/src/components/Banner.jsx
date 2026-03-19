@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import Bannertop from '../assets/bannertop.png'
+import Bannertop from '../assets/Bannertop.png'
 function Banner() {
   const navigate = useNavigate();
   return (
