@@ -99,7 +99,13 @@ function Login() {
             </button>
           </div>
 
-          <p className="mt-10 text-center text-stone-300 text-[10px] font-bold uppercase tracking-widest">
+          <div className="mt-8 text-center">
+             <p className="text-[10px] font-black text-amber-600 bg-amber-50 py-2 px-4 rounded-xl uppercase tracking-widest inline-block border border-amber-100">
+                Contact Developer for User ID & Pass
+             </p>
+          </div>
+
+          <p className="mt-8 text-center text-stone-300 text-[10px] font-bold uppercase tracking-widest">
             Spixo Systems v1.0 • Secure Encryption Active
           </p>
         </form>

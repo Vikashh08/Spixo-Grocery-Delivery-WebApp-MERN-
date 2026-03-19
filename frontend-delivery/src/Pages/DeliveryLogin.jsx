@@ -61,6 +61,12 @@ function DeliveryLogin() {
               ) : "START SHIFT"}
             </button>
           </div>
+
+          <div className="mt-8 text-center">
+             <p className="text-[10px] font-black text-blue-600 bg-blue-50 py-2 px-4 rounded-xl uppercase tracking-widest inline-block border border-blue-100">
+                Contact Developer for User ID & Pass
+             </p>
+          </div>
         </form>
       </div>
     </div>
