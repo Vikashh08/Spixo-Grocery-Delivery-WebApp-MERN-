@@ -1,233 +1,58 @@
-Spixo – Hyperlocal Grocery Delivery Platform (MERN)
-
-Spixo is a full-stack hyperlocal grocery delivery web application inspired by platforms like Blinkit.
-It is built using the MERN stack and supports role-based access for Users, Admins, and Delivery Partners, with secure authentication and real-time order management.
-
-🚀 Features
-👤 User Panel
-
-User registration and login with JWT authentication
-
-Browse grocery products by category
-
-Add/remove products from cart
-
-Checkout with Cash on Delivery (COD) option
-
-Delivery slot selection:
-
-30-minute delivery
-
-Evening delivery
-
-Dynamic delivery charges:
-
-Free delivery for orders above ₹500
-
-Configurable delivery fee below ₹500
-
-Order tracking and order history
-
-Fully responsive UI (mobile, tablet, desktop)
-
-🧑‍💼 Admin Panel
-
-Secure admin login (no public registration)
-
-Add, update, and delete products
-
-Manage stock quantity (units / kg)
-
-Automatic out-of-stock handling
-
-View and manage all orders
-
-Assign orders to delivery partners
-
-Control:
-
-Delivery radius (in km)
-
-Delivery charges
-
-Offers & discounts
-
-Dashboard with:
-
-Total orders
-
-Delivered orders
-
-Revenue overview
-
-🚴 Delivery Partner Panel
-
-Secure login (created by admin only)
-
-View assigned orders
-
-Access customer contact and address details
-
-Update order delivery status
-
-Receive new order notifications
-
-🧩 Tech Stack
-
-Frontend
-
-React.js (Vite)
-
-Tailwind CSS
-
-Axios
-
-React Router DOM
-
-Backend
-
-Node.js
-
-Express.js
-
-MongoDB (MongoDB Atlas)
-
-JWT Authentication
-
-bcrypt.js
-
-🔐 Authentication & Security
-
-JWT-based authentication
-
-Role-based access control (User / Admin / Delivery)
-
-Password hashing using bcrypt
-
-Protected routes using middleware
-
-Separate admin and delivery authentication flow
-
-🏗️ Project Structure
-Spixo/
-│
-├── backend/
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   ├── middleware/
-│   └── server.js
-│
-├── frontend-user/
-│   ├── pages/
-│   ├── components/
-│   └── context/
-│
-├── frontend-admin/
-│   ├── pages/
-│   ├── components/
-│   └── api/
-│
-├── frontend-delivery/
-│   ├── pages/
-│   └── api/
-
-⚙️ Installation & Setup
-1️⃣ Clone the Repository
-git clone https://github.com/your-username/spixo.git
-cd spixo
-
-2️⃣ Backend Setup
-cd backend
-npm install
-
-
-Create .env file:
-
-PORT=5001
-MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/spixo_db
-JWT_SECRET=your_secret_key
-
-
-Start backend:
-
-npm run dev
-
-3️⃣ Frontend Setup (User / Admin / Delivery)
-
-Repeat for each frontend:
-
-cd frontend-user   # or frontend-admin / frontend-delivery
-npm install
-npm run dev
-
-🌐 API Endpoints Overview
-Admin
-
-POST /api/admin/login
-
-Orders
-
-POST /api/orders – Place order
-
-GET /api/orders – View all orders (admin)
-
-POST /api/orders/assign – Assign order
-
-POST /api/orders/status – Update order status
-
-Delivery
-
-GET /api/delivery – Get delivery partners
-
-📦 Database
-
-MongoDB Atlas
-
-Separate collections for:
-
-Users
-
-Admins
-
-Delivery Partners
-
-Products
-
-Orders
-
-🎯 Key Learnings
-
-Full-stack MERN development
-
-RESTful API design
-
-Role-based authentication & authorization
-
-Real-world debugging of API routing issues
-
-Scalable project architecture
-
-Secure admin-only workflows
-
-🔮 Future Enhancements
-
-Online payment integration (UPI / Cards)
-
-Push notifications (SMS / WhatsApp)
-
-Live order tracking with maps
-
-Ratings & reviews
-
-Analytics dashboard
-
-👨‍💻 Author
-
-Vikash Kumar
-B.Tech Computer Science & Engineering
-Full-Stack Developer (MERN)
-
-⭐ If you like this project
-
-Give it a ⭐ on GitHub — it motivates me to build more!
+# Spixo: Hyperlocal Grocery Delivery Ecosystem
+
+Spixo is a comprehensive grocery delivery platform built on the MERN stack. The system is designed as a three-app ecosystem to handle end-to-end hyperlocal operations, from consumer orders to administrative management and fleet fulfillment. All three frontends are configured as Progressive Web Apps (PWAs) with offline support and integrated installation features.
+
+## Project Structure
+
+The repository is organized into four main directories:
+
+*   **backend**: Node.js and Express server handling the API, Socket.IO real-time updates, and MongoDB integration.
+*   **frontend-user**: The consumer-facing application where users can browse products, manage their cart, and place orders.
+*   **frontend-admin**: A centralized management console for store owners to manage inventory, track orders, and coordinate delivery partners.
+*   **frontend-delivery**: A specialized interface for delivery partners to manage their active tasks, track earnings, and update delivery statuses.
+
+## Technology Stack
+
+### Backend
+*   **Runtime**: Node.js
+*   **Framework**: Express.js
+*   **Database**: MongoDB (Mongoose ODM)
+*   **Security**: Helmet, CORS, and JWT-based authentication
+*   **Real-time Output**: Socket.IO for live order tracking
+*   **Optimization**: Gzip compression for high-performance API responses
+
+### Frontends (Common Architecture)
+*   **Framework**: React (Vite-powered)
+*   **Styling**: Tailwind CSS
+*   **PWA**: Vite PWA Plugin for offline reliability and mobile installation
+*   **Routing**: React Router with protected route logic
+*   **API Client**: Axios with global interceptors for token management
+
+## Deployment Configuration
+
+### Static Hosting (Netlify/Vercel)
+The frontends include specific configurations to ensure stability on cloud platforms:
+*   **vercel.json**: Catch-all rewrites to handle client-side routing and prevent 404 errors on page refresh.
+*   **_redirects**: Fallback rules for Netlify hosting.
+*   **_headers**: Cache control rules to ensure the Service Worker and manifest remain up-to-date.
+
+### Environment Variables
+Production builds utilize `.env.production` files. Ensure the `VITE_API_URL` points to your deployed backend (e.g., on Render) and `MONGO_URI` is correctly set in the backend environment.
+
+## Setup and Installation
+
+1.  Clone the repository.
+2.  Install dependencies for all segments:
+    ```bash
+    cd backend && npm install
+    cd ../frontend-user && npm install
+    cd ../frontend-admin && npm install
+    cd ../frontend-delivery && npm install
+    ```
+3.  Configure your environment variables following the provided `.env.sample` patterns in each directory.
+4.  Start the development servers:
+    *   **Backend**: `npm run dev` in the `backend` folder.
+    *   **Frontends**: `npm run dev` in the respective frontend folders.
+
+## Progressive Web App Features
+All applications include integrated "Install App" buttons that appear automatically once the browser verifies PWA suitability. This ensures a mobile-native experience for consumers, admins, and delivery partners without requiring a dedicated mobile app store.
