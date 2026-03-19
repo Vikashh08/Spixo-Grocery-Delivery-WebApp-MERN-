@@ -1,243 +1,327 @@
 import { useState } from "react";
 import {
-  AiOutlineMail,
-  AiOutlinePhone,
-  AiOutlineMessage,
-  AiOutlineArrowRight,
+AiOutlineMail,
+AiOutlinePhone,
+AiOutlineMessage,
+AiOutlineArrowRight,
+AiOutlineClockCircle,
 } from "react-icons/ai";
 import api from "../api/api";
 import toast from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    reason: "Order Issue",
-    message: "",
-  });
+const { user } = useAuth();
+const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [startY, setStartY] = useState(null);
-  const [confetti, setConfetti] = useState(false);
+const [formData, setFormData] = useState({
+name: user?.name || "",
+email: user?.email || "",
+reason: "Order Inquiry",
+message: "",
+});
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+const [loading, setLoading] = useState(false);
+const [submitted, setSubmitted] = useState(false);
 
-    try {
-      await api.post("/contact", formData);
-      setSubmitted(true);
-      setConfetti(true);
-      toast.success("Support request sent");
+const handleSubmit = async (e) => {
+e.preventDefault();
+setLoading(true);
 
-      setFormData({
-        name: "",
-        email: "",
-        reason: "Order Issue",
-        message: "",
-      });
-    } catch {
-      toast.error("Failed to send request");
-    } finally {
-      setLoading(false);
-    }
-  };
+try {
+await api.post("/contact", {
+...formData,
+userId: user?._id,
+});
 
-  const handleTouchStart = (e) => setStartY(e.touches[0].clientY);
+setSubmitted(true);
 
-  const handleTouchMove = (e) => {
-    if (!startY) return;
-    if (e.touches[0].clientY - startY > 120) {
-      setSubmitted(false);
-      setConfetti(false);
-    }
-  };
+setFormData({
+name: user?.name || "",
+email: user?.email || "",
+reason: "Order Inquiry",
+message: "",
+});
 
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-[#f7f8fa] to-[#eef1f4] pt-24 pb-32 px-5 font-sans">
-      <div className="max-w-6xl mx-auto grid lg:grid-cols-[320px_1fr] gap-14">
-        
-        {/* SIDEBAR */}
-        <div className="lg:sticky lg:top-28 h-fit">
-          <h2 className="text-[34px] font-extrabold text-gray-900 tracking-tight mb-3">
-            Grocery Support
-          </h2>
+toast.success("Support request sent");
+} catch {
+toast.error("Failed to send request");
+} finally {
+setLoading(false);
+}
+};
 
-          <p className="text-gray-500 text-[15px] leading-relaxed mb-8">
-            Delivery late? Items missing? Payment deducted?
-            Our support team will resolve your issue quickly.
-          </p>
+return (
 
-          <div className="space-y-4">
-            {[
-              { icon: <AiOutlineMail />, title: "Email", value: "vikashwork6@gmail.com" },
-              { icon: <AiOutlinePhone />, title: "Call", value: "+91 6204229636" },
-              { icon: <AiOutlineMessage />, title: "Chat", value: "Available in App" },
-            ].map((i, idx) => (
-              <div
-                key={idx}
-                className="group bg-white border border-gray-100 p-5 rounded-2xl flex items-center gap-4
-                shadow-[0_6px_20px_rgba(0,0,0,0.03)]
-                hover:shadow-[0_12px_30px_rgba(0,0,0,0.06)]
-                hover:-translate-y-[2px] transition duration-300"
-              >
-                <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center text-gray-700 group-hover:bg-gray-900 group-hover:text-white transition">
-                  {i.icon}
-                </div>
+<div className="bg-stone-50 min-h-screen pt-28 pb-20 px-5">
+<div className="max-w-6xl mx-auto">
+<div className="grid lg:grid-cols-12 gap-10">
 
-                <div>
-                  <p className="text-[11px] text-gray-400 uppercase tracking-widest font-bold">
-                    {i.title}
-                  </p>
-                  <p className="font-semibold text-gray-900 text-[15px]">
-                    {i.value}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+{/* LEFT */}
 
-        {/* FORM CARD */}
-        <div className="bg-white rounded-[28px] border border-gray-100
-        shadow-[0_25px_70px_rgba(0,0,0,0.06)] p-10">
-          
-          <h3 className="text-2xl font-bold text-gray-900 mb-7">
-            Raise Grocery Support Request
-          </h3>
+<div className="lg:col-span-5 space-y-8">
+<h1 className="text-3xl font-bold text-stone-900 leading-tight">
+Need help with your order?
+</h1>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <input
-              required
-              placeholder="Full Name"
-              value={formData.name}
-              onChange={(e)=>setFormData({...formData,name:e.target.value})}
-              className="w-full border border-gray-200 rounded-xl p-4 outline-none
-              focus:ring-4 focus:ring-gray-100 focus:border-gray-400 transition"
-            />
+<p className="text-stone-500 text-sm">
+Our support team is available 24×7 to assist you.
+</p>
 
-            <input
-              required
-              type="email"
-              placeholder="Email Address"
-              value={formData.email}
-              onChange={(e)=>setFormData({...formData,email:e.target.value})}
-              className="w-full border border-gray-200 rounded-xl p-4 outline-none
-              focus:ring-4 focus:ring-gray-100 focus:border-gray-400 transition"
-            />
+{user && (
+<button
+onClick={() => navigate("/my-support")}
+className="bg-emerald-500 text-white px-5 py-3 rounded-xl text-sm font-semibold hover:bg-emerald-600 transition flex items-center gap-2"
 
-            <select
-              value={formData.reason}
-              onChange={(e)=>setFormData({...formData,reason:e.target.value})}
-              className="w-full border border-gray-200 rounded-xl p-4 outline-none"
-            >
-              <option>Order Issue</option>
-              <option>Late Delivery</option>
-              <option>Missing / Wrong Item</option>
-              <option>Payment Problem</option>
-              <option>Product Quality Issue</option>
-            </select>
+>
 
-            <textarea
-              required
-              rows="4"
-              placeholder="Describe your grocery issue..."
-              value={formData.message}
-              onChange={(e)=>setFormData({...formData,message:e.target.value})}
-              className="w-full border border-gray-200 rounded-xl p-4 outline-none"
-            />
+Track Support <AiOutlineArrowRight /> </button>
+)}
 
-            <button
-              disabled={loading}
-              className="w-full bg-gray-900 text-white py-4 rounded-xl font-semibold
-              hover:bg-black active:scale-[0.97] transition flex items-center justify-center gap-3"
-            >
-              {loading ? (
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-              ) : (
-                <>
-                  Submit Request <AiOutlineArrowRight />
-                </>
-              )}
-            </button>
-          </form>
-        </div>
-      </div>
+<div className="space-y-3 pt-4">
+{[
+{ icon: <AiOutlineMail />, title: "Email", value: "vikashwork6@gmail.com" },
+{ icon: <AiOutlinePhone />, title: "Phone", value: "+91 6204229636" },
+{ icon: <AiOutlineMessage />, title: "Chat", value: "In-App Support" },
+].map((item, i) => (
+<div
+key={i}
+className="bg-white p-4 rounded-xl border border-stone-200 flex items-center gap-4"
+>
+<div className="w-10 h-10 bg-stone-100 rounded-lg flex items-center justify-center">
+{item.icon}
+</div>
 
-      {/* SUCCESS SHEET */}
-      {submitted && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-end justify-center z-50">
-          <div
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            className="bg-white w-full max-w-md rounded-t-3xl p-8 animate-sheet relative"
-          >
-            <div className="w-16 h-1 bg-gray-200 rounded-full mx-auto mb-6"></div>
+<div>
+<p className="text-xs text-stone-400">{item.title}</p>
+<p className="text-sm font-semibold text-stone-800">
+{item.value}
+</p>
+</div>
+</div>
+))}
+</div>
+</div>
 
-            <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-5 animate-success">
-              ✔
-            </div>
+{/* RIGHT */}
 
-            <h3 className="text-xl font-bold text-center text-gray-900 mb-2">
-              Request Sent Successfully
-            </h3>
+<div className="lg:col-span-7 bg-white rounded-3xl p-7 md:p-9 shadow-sm border border-stone-200 relative overflow-hidden">
 
-            <p className="text-gray-500 text-center mb-6">
-              Our support team will contact you shortly.
-            </p>
+<div className="mb-6 flex justify-between">
+<div>
+<h2 className="text-xl font-bold text-stone-900">
+Contact Support
+</h2>
+<p className="text-xs text-stone-400">
+Avg response ~15 min
+</p>
+</div>
 
-            <button
-              onClick={()=>{setSubmitted(false);setConfetti(false);}}
-              className="w-full bg-gray-900 text-white py-3 rounded-xl font-semibold"
-            >
-              Done
-            </button>
+<AiOutlineClockCircle className="text-emerald-500 text-xl" />
+</div>
 
-            {confetti && (
-              <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                {[...Array(20)].map((_,i)=>(
-                  <div
-                    key={i}
-                    className="confetti"
-                    style={{
-                      left:Math.random()*100+"%",
-                      animationDelay:i*0.05+"s"
-                    }}
-                  ></div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+<form onSubmit={handleSubmit} className="space-y-5">
+<div className="grid md:grid-cols-2 gap-4">
+<input
+required
+value={formData.name}
+onChange={(e) =>
+setFormData({ ...formData, name: e.target.value })
+}
+className="input"
+placeholder="Full Name"
+/>
 
-      <style>{`
-        .animate-sheet{animation:sheet .5s cubic-bezier(.22,1.3,.36,1)}
-        @keyframes sheet{
-          0%{transform:translateY(100%)}
-          60%{transform:translateY(-10px)}
-          100%{transform:translateY(0)}
-        }
-        .animate-success{animation:pop .4s ease}
-        @keyframes pop{
-          0%{transform:scale(.6);opacity:0}
-          80%{transform:scale(1.1)}
-          100%{transform:scale(1)}
-        }
-        .confetti{
-          position:absolute;
-          top:-10px;
-          width:8px;height:14px;
-          background:#22c55e;
-          animation:fall 1.2s linear forwards;
-        }
-        @keyframes fall{
-          to{transform:translateY(240px) rotate(360deg);opacity:0}
-        }
-      `}</style>
-    </div>
-  );
+<input
+required
+type="email"
+value={formData.email}
+onChange={(e) =>
+setFormData({ ...formData, email: e.target.value })
+}
+className="input"
+placeholder="Email Address"
+/>
+
+</div>
+
+<select
+value={formData.reason}
+onChange={(e) =>
+setFormData({ ...formData, reason: e.target.value })
+}
+className="input text-sm"
+
+>
+
+<option>Order Inquiry</option>
+<option>Delivery Feedback</option>
+<option>Product Suggestion</option>
+<option>Technical Issue</option>
+<option>Business Partnership</option>
+</select>
+
+<textarea
+required
+rows="4"
+value={formData.message}
+onChange={(e) =>
+setFormData({ ...formData, message: e.target.value })
+}
+className="input resize-none"
+placeholder="Tell us how we can help..."
+/>
+
+<button
+disabled={loading}
+className="w-full bg-emerald-500 text-white p-4 rounded-xl font-semibold text-sm hover:bg-emerald-600 transition active:scale-95 flex items-center justify-center gap-2"
+>
+{loading ? <div className="loader" /> : <>Send Request <AiOutlineArrowRight /></>}
+</button>
+</form>
+
+{/* SUCCESS SHEET */}
+{submitted && (
+<div className="absolute inset-0 flex items-end justify-center bg-black/20 backdrop-blur-sm z-20">
+
+{/* CONFETTI */}
+<div className="confetti-wrapper">
+{[...Array(40)].map((_, i) => (
+<span key={i} className="confetti" />
+))}
+</div>
+
+<div className="success-sheet w-full bg-white rounded-t-[32px] p-8 text-center shadow-2xl">
+<div className="success-icon">
+<svg width="44" height="44" viewBox="0 0 24 24">
+<path
+d="M5 13L9 17L19 7"
+stroke="#10B981"
+strokeWidth="3"
+fill="none"
+strokeLinecap="round"
+strokeLinejoin="round"
+/>
+</svg>
+</div>
+
+<h3 className="text-2xl font-bold text-stone-900 mb-2">
+Request Sent 🎉
+</h3>
+
+<p className="text-stone-500 text-sm mb-7">
+Our support team will contact you shortly.
+</p>
+
+<button
+onClick={() => setSubmitted(false)}
+className="w-full bg-emerald-500 text-white py-4 rounded-xl font-semibold text-sm hover:bg-emerald-600 transition active:scale-95"
+>
+Continue
+</button>
+</div>
+</div>
+)}
+
+</div>
+</div>
+
+<style>{`
+.input{
+width:100%;
+background:white;
+border:1px solid #e7e5e4;
+padding:14px 16px;
+border-radius:12px;
+font-size:14px;
+transition:.25s;
+}
+.input:focus{
+border-color:#10b981;
+box-shadow:0 0 0 4px rgba(16,185,129,.12);
+}
+
+.loader{
+width:18px;
+height:18px;
+border:2px solid rgba(255,255,255,.4);
+border-top:2px solid white;
+border-radius:50%;
+animation:spin .7s linear infinite;
+}
+@keyframes spin{
+to{transform:rotate(360deg);}
+}
+
+/* sheet animation */
+.success-sheet{
+animation:sheetUp .55s cubic-bezier(.22,1,.36,1);
+}
+@keyframes sheetUp{
+from{transform:translateY(100%);}
+to{transform:translateY(0);}
+}
+
+/* icon pop */
+.success-icon{
+width:82px;
+height:82px;
+background:#d1fae5;
+border-radius:999px;
+display:flex;
+align-items:center;
+justify-content:center;
+margin:0 auto 20px;
+animation:pop .45s ease;
+}
+@keyframes pop{
+from{transform:scale(.6);opacity:0;}
+to{transform:scale(1);opacity:1;}
+}
+
+/* CONFETTI */
+.confetti-wrapper{
+position:absolute;
+inset:0;
+pointer-events:none;
+overflow:hidden;
+}
+
+.confetti{
+position:absolute;
+width:8px;
+height:14px;
+top:-20px;
+background:#10b981;
+opacity:.9;
+border-radius:2px;
+animation:fall linear forwards;
+}
+
+.confetti:nth-child(3n){background:#f59e0b;}
+.confetti:nth-child(4n){background:#3b82f6;}
+.confetti:nth-child(5n){background:#ef4444;}
+.confetti:nth-child(2n){width:6px;height:10px;}
+
+${[...Array(40)].map((_,i)=>`
+.confetti:nth-child(${i+1}){
+left:${Math.random()*100}%;
+animation-duration:${3+Math.random()*2}s;
+animation-delay:${Math.random()*0.6}s;
+}
+`).join("")}
+
+@keyframes fall{
+0%{transform:translateY(0) rotate(0deg);}
+100%{transform:translateY(110vh) rotate(720deg);opacity:0;}
+}
+
+`}</style>
+
+</div>
+</div>
+);
 }
 
 export default Contact;

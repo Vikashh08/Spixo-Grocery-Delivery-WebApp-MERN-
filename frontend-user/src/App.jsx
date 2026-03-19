@@ -13,6 +13,7 @@ import ResetPassword from "./pages/auth/ResetPassword";
 import Register from "./pages/Register";
 import OrderSuccess from "./pages/OrderSuccess";
 import Contact from "./pages/Contact";
+import MySupport from "./pages/MySupport";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Loader from "./Components/Loader";
 import LoadingBar from "./components/LoadingBar";
@@ -61,6 +62,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/my-support" element={<ProtectedRoute><MySupport /></ProtectedRoute>} />
 
         <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/products" element={<ProtectedRoute><Products /></ProtectedRoute>} />
