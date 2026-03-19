@@ -21,7 +21,24 @@ function DeliveryOrders() {
   const [history, setHistory] = useState([]);
   const [partner, setPartner] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    return () => window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') setDeferredPrompt(null);
+  };
 
   const fetchData = async () => {
     setLoading(true);
@@ -98,12 +115,23 @@ function DeliveryOrders() {
           </p>
         </div>
       </div>
-      <button 
-          onClick={handleLogout}
-          className="w-10 h-10 bg-white shadow-sm border border-slate-100 rounded-2xl flex items-center justify-center text-slate-400 hover:text-red-500 transition-all active:scale-95"
-        >
-          <AiOutlineLogout size={18} />
-        </button>
+      <div className="flex items-center gap-2">
+        {deferredPrompt && (
+          <button 
+            onClick={handleInstallClick}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-xl shadow-lg active:scale-95 transition-all"
+          >
+            <TbTruck className="text-lg" />
+            <span className="hidden sm:inline">Install App</span>
+          </button>
+        )}
+        <button 
+            onClick={handleLogout}
+            className="w-10 h-10 bg-white shadow-sm border border-slate-100 rounded-2xl flex items-center justify-center text-slate-400 hover:text-red-500 transition-all active:scale-95"
+          >
+            <AiOutlineLogout size={18} />
+          </button>
+      </div>
       </header>
 
       {/* Main Content */}

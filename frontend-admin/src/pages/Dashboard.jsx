@@ -62,6 +62,23 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [storeOpen, setStoreOpen] = useState(true);
   const [chartData, setChartData] = useState([]);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    return () => window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') setDeferredPrompt(null);
+  };
 
   useEffect(() => {
     fetchStats();
@@ -139,6 +156,23 @@ function Dashboard() {
             <button onClick={() => navigate("/settings")} className="p-3 bg-white hover:bg-stone-50 rounded-2xl border border-stone-100 text-stone-400 hover:text-stone-900 transition-all shadow-sm">
               <AiOutlineSetting size={20} />
             </button>
+            {deferredPrompt && (
+              <button 
+                onClick={handleInstallClick}
+                className="hidden sm:flex items-center gap-2 px-4 py-3 bg-stone-900 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-stone-800 transition-all active:scale-95 shadow-lg"
+              >
+                <AiOutlineThunderbolt size={16} className="text-amber-400" />
+                Install App
+              </button>
+            )}
+            {deferredPrompt && (
+              <button 
+                onClick={handleInstallClick}
+                className="sm:hidden p-3 bg-stone-900 text-white rounded-2xl border border-stone-900 shadow-sm active:scale-90"
+              >
+                <AiOutlineThunderbolt size={20} className="text-amber-400" />
+              </button>
+            )}
             <button onClick={logout} className="p-3 bg-white hover:bg-rose-50 rounded-2xl border border-stone-100 text-stone-400 hover:text-rose-600 transition-all shadow-sm">
               <AiOutlineLogout size={20} />
             </button>
