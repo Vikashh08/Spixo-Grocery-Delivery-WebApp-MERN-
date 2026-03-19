@@ -222,7 +222,42 @@ function Dashboard() {
                   <StatPill label="Customers" value={stats?.totalUsers || 0} trend={2.1} icon={<AiOutlineTeam size={24}/>} color="bg-emerald-600"/>
                 </div>
 
-                {/* Analytics working Chart */}
+                {/* Best Sellers - Dedicated Professional Section */}
+                <div className="bg-white rounded-[3rem] p-8 md:p-10 shadow-sm border border-stone-100 overflow-hidden relative group mb-10">
+                  <div className="flex justify-between items-end mb-10">
+                    <div>
+                      <h3 className="text-2xl font-black text-stone-900 tracking-tight">Best Sellers</h3>
+                      <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest mt-1">Top Performing Products This Week</p>
+                    </div>
+                    <Link to="/products" className="text-[10px] font-black text-indigo-600 hover:text-indigo-700 uppercase tracking-widest transition-colors border-b-2 border-indigo-50 pb-1">View Full Catalog</Link>
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+                    {stats?.topProducts?.map((p, idx) => (
+                      <div key={idx} className="flex flex-col items-center text-center group/item transition-all">
+                        <div className="w-full aspect-square bg-stone-50 rounded-[2.5rem] border border-stone-100 flex items-center justify-center overflow-hidden mb-4 group-hover/item:shadow-xl group-hover/item:-translate-y-1 transition-all">
+                          {p.image ? (
+                            <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-700" />
+                          ) : (
+                            <AiOutlineShoppingCart className="text-stone-200" size={32} />
+                          )}
+                        </div>
+                        <h4 className="text-[11px] font-black text-stone-800 uppercase tracking-wide truncate w-full mb-1">{p.name || 'Unknown Item'}</h4>
+                        <div className="flex flex-col gap-1">
+                           <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">{p.count} Sold</span>
+                           <span className="text-[10px] font-black text-emerald-600">₹{p.revenue?.toLocaleString()}</span>
+                        </div>
+                      </div>
+                    ))}
+                    {!stats?.topProducts?.length && (
+                      <div className="col-span-full py-16 text-center border-2 border-dashed border-stone-100 rounded-[2.5rem]">
+                        <p className="text-stone-300 text-xs italic">"No performance data available for this cycle."</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Analytics Chart */}
                 <div className="bg-white rounded-[3rem] p-8 shadow-sm border border-stone-100">
                   <div className="flex justify-between items-center mb-8">
                     <div>
@@ -311,63 +346,6 @@ function Dashboard() {
               {/* Right Sidebar */}
               <div className="lg:col-span-4 space-y-10">
                 
-                {/* Market Buzz - High Energy Section */}
-                <div className="bg-gradient-to-br from-stone-900 via-stone-900 to-amber-900 rounded-[3rem] p-8 text-white relative overflow-hidden group border border-white/5">
-                  <div className="absolute top-0 right-0 p-8 opacity-20 pointer-events-none group-hover:scale-125 transition-transform duration-1000 rotate-12">
-                    <AiOutlineThunderbolt size={140} />
-                  </div>
-
-                  <div className="flex justify-between items-start mb-10 relative z-10">
-                    <div>
-                      <h3 className="text-3xl font-black tracking-tight leading-none mb-2">Market Buzz 🔥</h3>
-                      <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 bg-rose-500 rounded-full animate-ping"></span>
-                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-400">Extreme Demand Active</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-6 relative z-10">
-                    {stats?.topProducts?.map((p, idx) => (
-                      <div key={idx} className="flex items-center gap-5 p-4 bg-white/5 rounded-3xl border border-white/10 hover:bg-white/15 transition-all group/item shadow-2xl">
-                        <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center overflow-hidden flex-shrink-0 group-hover/item:scale-105 transition-transform border border-white/10">
-                          {p.image ? (
-                            <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
-                          ) : (
-                            <AiOutlineShoppingCart className="text-stone-300" size={24} />
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h4 className="font-black text-sm uppercase tracking-wide leading-none truncate mb-2">{p.name || 'Unknown Item'}</h4>
-                          <div className="flex items-center gap-3">
-                            <span className="text-[9px] font-black text-amber-400 uppercase tracking-widest">{p.count} Orders</span>
-                            <span className="w-1 h-1 bg-white/20 rounded-full" />
-                            <span className="text-[9px] font-bold text-white/40 uppercase tracking-widest">₹{p.revenue?.toLocaleString()}</span>
-                          </div>
-                        </div>
-                        <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_15px_#10b981]"></div>
-                      </div>
-                    ))}
-                    {!stats?.topProducts?.length && (
-                      <div className="py-20 text-center space-y-4">
-                         <p className="text-white/20 italic text-sm">Detecting store energy...</p>
-                         <div className="flex justify-center gap-1">
-                            <div className="w-1 h-4 bg-white/10 rounded-full animate-bounce [animation-delay:-0.3s]" />
-                            <div className="w-1 h-6 bg-white/20 rounded-full animate-bounce [animation-delay:-0.15s]" />
-                            <div className="w-1 h-4 bg-white/10 rounded-full animate-bounce" />
-                         </div>
-                      </div>
-                    )}
-                  </div>
-
-                  <button 
-                    onClick={() => navigate("/products")} 
-                    className="mt-10 w-full py-5 bg-amber-500 text-white rounded-[1.8rem] font-black text-[11px] uppercase tracking-[0.2em] shadow-2xl shadow-amber-900/40 hover:bg-white hover:text-stone-900 transition-all active:scale-95 flex items-center justify-center gap-3"
-                  >
-                    Analyze Catalog <AiOutlineArrowUp className="rotate-45" size={18} />
-                  </button>
-                </div>
-
                 {/* System Pulse / Store Health */}
                 <div className="bg-white rounded-[3rem] p-10 shadow-sm border border-stone-100 flex flex-col items-center relative overflow-hidden group">
                   <div className="absolute inset-0 bg-stone-50 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -385,6 +363,22 @@ function Dashboard() {
                     </div>
                     <button onClick={() => navigate("/settings")} className="w-full py-5 bg-stone-50 text-stone-900 border border-stone-100 rounded-3xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-stone-900 hover:text-white transition-all active:scale-95">
                       Console Diagnostics
+                    </button>
+                  </div>
+                </div>
+
+                {/* Quick Shortcuts */}
+                <div className="bg-stone-900 rounded-[3rem] p-8 text-white relative overflow-hidden group border border-white/5">
+                  <div className="absolute top-0 right-0 p-8 opacity-20 pointer-events-none group-hover:scale-125 transition-transform duration-1000 rotate-12">
+                     <AiOutlineTeam size={120} />
+                  </div>
+                  <h3 className="text-2xl font-black mb-6 relative z-10">Management</h3>
+                  <div className="space-y-4 relative z-10">
+                    <button onClick={() => navigate("/add-delivery")} className="w-full py-4 bg-white/10 hover:bg-white/20 rounded-2xl text-[10px] font-black uppercase tracking-widest text-left px-6 transition-all flex items-center justify-between border border-white/5">
+                      Recruit Partner <AiOutlinePlusCircle />
+                    </button>
+                    <button onClick={() => navigate("/manage-delivery")} className="w-full py-4 bg-white/10 hover:bg-white/20 rounded-2xl text-[10px] font-black uppercase tracking-widest text-left px-6 transition-all flex items-center justify-between border border-white/5">
+                      Fleet Overview <AiOutlineArrowUp className="rotate-45" />
                     </button>
                   </div>
                 </div>
