@@ -56,45 +56,45 @@ function Home() {
       )}
 
       {/* Hero Banner - Grocery App Style */}
-      <div className="bg-stone-900 text-white px-6 pt-32 pb-24 relative overflow-hidden">
+      <div className="bg-stone-900 text-white px-6 pt-24 md:pt-32 pb-16 md:pb-24 relative overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-green-500/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
         
         <div className="max-w-4xl mx-auto relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 mb-8 animate-fade-in shadow-xl">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 mb-6 md:mb-8 animate-fade-in shadow-xl">
             <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-ping"></span>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white">
+            <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-white">
               {user ? `${getGreeting()}, ${user.name.split(' ')[0]}` : "30 Min Delivery in your area"}
             </p>
           </div>
-          <h1 className="text-4xl md:text-6xl font-black mb-8 leading-tight tracking-tighter animate-slide-up">
-            Everything you need, <br/> delivered in <span className="text-green-400">30 minutes.</span>
+          <h1 className="text-3xl md:text-6xl font-black mb-6 md:mb-8 leading-tight tracking-tighter animate-slide-up">
+            Everything you need, <br className="hidden md:block"/> delivered in <span className="text-green-400">30 minutes.</span>
           </h1>
 
           {/* Search Bar */}
           <form onSubmit={handleSearch} className="relative max-w-2xl mx-auto group">
-            <div className="absolute inset-y-0 left-8 flex items-center pointer-events-none text-stone-500 group-focus-within:text-green-400 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <div className="absolute inset-y-0 left-6 md:left-8 flex items-center pointer-events-none text-stone-500 group-focus-within:text-green-400 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             </div>
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search for groceries, snacks and more"
-              className="w-full bg-white border-2 border-transparent px-16 py-6 rounded-2xl text-stone-900 placeholder-stone-400 font-bold shadow-2xl focus:outline-none focus:border-green-500 transition-all text-sm group-hover:scale-[1.01] duration-300"
+              placeholder="Search groceries..."
+              className="w-full bg-white border-2 border-transparent pl-14 md:pl-16 pr-24 md:pr-16 py-5 md:py-6 rounded-2xl text-stone-900 placeholder-stone-400 font-bold shadow-2xl focus:outline-none focus:border-green-500 transition-all text-xs md:text-sm group-hover:scale-[1.01] duration-300"
             />
             <button
               type="submit"
-              className="absolute right-3 top-1/2 -translate-y-1/2 bg-stone-900 text-white hover:bg-green-500 px-8 py-3.5 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all active:scale-95"
+              className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 bg-stone-900 text-white hover:bg-green-500 px-5 md:px-8 py-2.5 md:py-3.5 rounded-xl font-bold text-[10px] md:text-[11px] uppercase tracking-widest transition-all active:scale-95"
             >
               Search
             </button>
           </form>
           
-          <div className="mt-10 flex justify-center items-center gap-8 text-[10px] font-black uppercase tracking-widest text-stone-500">
-             <span className="flex items-center gap-2 underline decoration-green-500/50 underline-offset-4">Express Delivery</span>
-             <span className="flex items-center gap-2 underline decoration-green-500/50 underline-offset-4">Handpicked Fresh</span>
-             <span className="flex items-center gap-2 underline decoration-green-500/50 underline-offset-4">Safe Checkout</span>
+          <div className="mt-8 md:mt-10 flex flex-wrap justify-center items-center gap-4 md:gap-8 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-stone-500">
+             <span className="underline decoration-green-500/50 underline-offset-4">Express Delivery</span>
+             <span className="underline decoration-green-500/50 underline-offset-4">Handpicked Fresh</span>
+             <span className="underline decoration-green-500/50 underline-offset-4">Safe Checkout</span>
           </div>
         </div>
       </div>
@@ -191,18 +191,18 @@ function Home() {
         )}
 
         {/* Banner Promo */}
-        <div className="bg-stone-900 rounded-[4rem] p-16 mb-24 flex flex-col md:flex-row items-center justify-between relative overflow-hidden shadow-2xl group border border-white/5">
+        <div className="bg-stone-900 rounded-[3rem] md:rounded-[4rem] p-8 md:p-16 mb-24 flex flex-col md:flex-row items-center justify-between relative overflow-hidden shadow-2xl group border border-white/5">
           <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
-          <div className="relative z-10 text-center md:text-left mb-12 md:mb-0">
-            <p className="text-green-400 text-[11px] font-black uppercase tracking-[0.4em] mb-6">Discovery Bonus</p>
-            <h3 className="text-5xl font-serif font-bold text-white mb-4 tracking-tighter">Your first delivery is on us</h3>
-            <p className="text-stone-400 text-lg font-medium max-w-lg italic border-l-4 border-stone-700 pl-6 ml-1">Experience the Spixo difference today. No delivery fees on your first order of fresh essentials.</p>
+          <div className="relative z-10 text-center md:text-left mb-10 md:mb-0">
+            <p className="text-green-400 text-[9px] md:text-[11px] font-black uppercase tracking-[0.4em] mb-4 md:mb-6">Discovery Bonus</p>
+            <h3 className="text-3xl md:text-5xl font-serif font-bold text-white mb-4 tracking-tighter">Your first delivery is on us</h3>
+            <p className="text-stone-400 text-sm md:text-lg font-medium max-w-lg italic border-l-4 border-stone-700 pl-6 ml-1">Experience the Spixo difference today. No delivery fees on your first order.</p>
           </div>
-          <div className="flex flex-col items-center gap-8 relative z-10">
-             <div className="w-24 h-24 bg-white/5 backdrop-blur-xl rounded-[2.5rem] flex items-center justify-center text-green-400 shadow-2xl animate-pulse">
+          <div className="flex flex-col items-center gap-6 md:gap-8 relative z-10 w-full md:w-auto">
+             <div className="hidden md:flex w-24 h-24 bg-white/5 backdrop-blur-xl rounded-[2.5rem] items-center justify-center text-green-400 shadow-2xl animate-pulse">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 18H3c-1.1 0-2-.9-2-2V7c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2v2"/><path d="M16 11h2l4 4v3h-2"/><circle cx="16.5" cy="18.5" r="2.5"/><circle cx="6.5" cy="18.5" r="2.5"/></svg>
              </div>
-             <button onClick={() => navigate("/products")} className="bg-white text-stone-900 px-12 py-5 rounded-2xl font-black text-[12px] uppercase tracking-widest hover:bg-green-500 hover:text-white transition-all shadow-2xl active:scale-95">Complete your list</button>
+             <button onClick={() => navigate("/products")} className="w-full md:w-auto bg-white text-stone-900 px-12 py-5 rounded-2xl font-black text-[11px] md:text-[12px] uppercase tracking-widest hover:bg-green-500 hover:text-white transition-all shadow-2xl active:scale-95">Complete your list</button>
           </div>
         </div>
       </div>
