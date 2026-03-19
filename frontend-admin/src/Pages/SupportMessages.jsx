@@ -12,14 +12,12 @@ function SupportMessages() {
     fetchMessages();
   }, []);
 
-  const fetchMessages = async () => {
+  const updateStatus = async (id, status) => {
     try {
-      const res = await api.get("/contact");
-      setMessages(res.data);
+      await api.put(`/contact/${id}`, { status });
+      setMessages(messages.map(m => m._id === id ? { ...m, status } : m));
     } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
+      console.error("Failed to update status", err);
     }
   };
 
@@ -51,7 +49,9 @@ function SupportMessages() {
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-4">
                       <span className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest ${
-                        msg.status === 'PENDING' ? 'bg-amber-50 text-amber-600' : 'bg-emerald-50 text-emerald-600'
+                        msg.status === 'PENDING' ? 'bg-amber-50 text-amber-600' : 
+                        msg.status === 'RESOLVED' ? 'bg-emerald-50 text-emerald-600' : 
+                        'bg-rose-50 text-rose-600'
                       }`}>
                         {msg.status}
                       </span>
@@ -72,13 +72,26 @@ function SupportMessages() {
                     </div>
                   </div>
 
-                  <div className="flex md:flex-col gap-3 justify-end">
-                    <button className="flex items-center justify-center gap-2 px-6 py-4 bg-emerald-500 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-600 transition-all active:scale-95 shadow-lg shadow-emerald-100">
-                      <AiOutlineCheckCircle size={16} /> Resolve
-                    </button>
-                    <button className="flex items-center justify-center gap-2 px-6 py-4 bg-stone-100 text-stone-400 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-rose-50 hover:text-rose-600 transition-all active:scale-95">
-                      <AiOutlineFlag size={16} /> Mark Spam
-                    </button>
+                  <div className="flex md:flex-cols gap-3 justify-end items-center">
+                    {msg.status === 'PENDING' && (
+                      <>
+                        <button 
+                          onClick={() => updateStatus(msg._id, 'RESOLVED')}
+                          className="flex items-center justify-center gap-2 px-6 py-4 bg-emerald-500 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-600 transition-all active:scale-95 shadow-lg shadow-emerald-100"
+                        >
+                          <AiOutlineCheckCircle size={16} /> Resolve
+                        </button>
+                        <button 
+                          onClick={() => updateStatus(msg._id, 'SPAM')}
+                          className="flex items-center justify-center gap-2 px-6 py-4 bg-stone-100 text-stone-400 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-rose-50 hover:text-rose-600 transition-all active:scale-95"
+                        >
+                          <AiOutlineFlag size={16} /> Mark Spam
+                        </button>
+                      </>
+                    )}
+                    {msg.status !== 'PENDING' && (
+                       <span className="text-stone-300 font-black text-[9px] uppercase tracking-widest px-4 py-2 border border-stone-100 rounded-xl">Processed</span>
+                    )}
                   </div>
                 </div>
               </div>
