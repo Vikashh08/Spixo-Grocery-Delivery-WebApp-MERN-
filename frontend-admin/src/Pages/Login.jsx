@@ -7,30 +7,33 @@ import "../index.css";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
     try {
       const res = await api.post("/admin/login", { email, password });
       const token = res.data?.token || res.data?.data?.token;
       
       if (!token) throw new Error("No token returned from server");
 
-      // Store admin token
       localStorage.setItem("adminToken", token);
-
-      // Optionally set the Authorization header on the api instance for future requests
+      
       if (api && api.defaults && api.defaults.headers) {
         api.defaults.headers.common = api.defaults.headers.common || {};
         api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       }
 
-      // Redirect to admin dashboard
       navigate("/");
-    } catch (error) {
-      console.error("Login error:", error);
-      alert("Invalid administrative credentials or server error.");
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("Identification failed. Access denied.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -52,6 +55,13 @@ function Login() {
               Authorized Personnel Only
             </p>
           </div>
+
+          {error && (
+            <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-2xl flex items-center gap-3 border border-red-100 animate-shake">
+              <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-ping shrink-0" />
+              <p className="text-[11px] font-black uppercase tracking-widest">{error}</p>
+            </div>
+          )}
 
           <div className="space-y-6">
             <div className="relative">
@@ -80,9 +90,12 @@ function Login() {
 
             <button
               type="submit"
-              className="w-full py-5 bg-stone-900 text-white font-bold rounded-2xl hover:bg-stone-800 transition-all active:scale-[0.98]"
+              disabled={loading}
+              className="w-full py-5 bg-stone-900 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-stone-800 transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-3"
             >
-              Access Dashboard
+              {loading ? (
+                <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+              ) : "Access Dashboard"}
             </button>
           </div>
 

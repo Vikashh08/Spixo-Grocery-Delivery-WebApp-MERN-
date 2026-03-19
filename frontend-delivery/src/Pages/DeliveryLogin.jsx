@@ -6,17 +6,22 @@ import { AiOutlineUnlock, AiOutlineMail } from "react-icons/ai";
 function DeliveryLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
     try {
-      // Hits /api/delivery/login
       const res = await api.post("/delivery/login", { email, password }); 
       localStorage.setItem("deliveryToken", res.data.token);
-      navigate("/orders"); // Redirect to assigned tasks
+      navigate("/orders");
     } catch {
-      alert("Fleet authentication failed. Check credentials.");
+      setError("Authentication failed. Check your security key.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -29,6 +34,14 @@ function DeliveryLogin() {
             <h2 className="text-3xl font-serif font-bold text-stone-800 tracking-tight">Fleet Access</h2>
             <p className="text-stone-400 mt-2 text-[10px] font-bold uppercase tracking-widest">Spixo Delivery Network</p>
           </div>
+
+          {error && (
+            <div className="mb-6 p-4 bg-rose-50 text-rose-600 rounded-2xl flex items-center gap-3 border border-rose-100 animate-shake">
+              <div className="w-1.5 h-1.5 bg-rose-500 rounded-full animate-ping shrink-0" />
+              <p className="text-[11px] font-black uppercase tracking-widest">{error}</p>
+            </div>
+          )}
+
           <div className="space-y-6">
             <div className="relative">
               <AiOutlineMail className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-300" />
@@ -38,7 +51,15 @@ function DeliveryLogin() {
               <AiOutlineUnlock className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-300" />
               <input type="password" placeholder="Security Key" onChange={(e) => setPassword(e.target.value)} className="w-full pl-12 pr-6 py-4 bg-stone-50 rounded-2xl outline-none" required />
             </div>
-            <button type="submit" className="w-full py-5 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all active:scale-95">START SHIFT</button>
+            <button 
+              type="submit" 
+              disabled={loading}
+              className="w-full py-5 bg-blue-600 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-blue-700 transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-3"
+            >
+              {loading ? (
+                <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+              ) : "START SHIFT"}
+            </button>
           </div>
         </form>
       </div>
