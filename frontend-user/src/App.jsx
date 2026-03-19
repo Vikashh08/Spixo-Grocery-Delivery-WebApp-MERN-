@@ -16,7 +16,7 @@ import Contact from "./pages/Contact";
 import MySupport from "./pages/MySupport";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Loader from "./Components/Loader";
-import LoadingBar from "./components/LoadingBar";
+import LoadingBar from "./components/LoadingBar.jsx";
 import { setProgressBar } from "./api/api";
 import { Toaster } from "react-hot-toast";
 import { SettingsProvider } from "./context/SettingsContext";
