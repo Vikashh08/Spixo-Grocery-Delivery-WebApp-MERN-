@@ -14,7 +14,6 @@ import ManageUsers from "./pages/ManageUsers";
 import { createContext, useContext, useState, useEffect } from "react";
 import LoadingBar from "./components/LoadingBar";
 import api, { setProgressBar } from "./api/api";
-import Navbar from "./components/Navbar";
 
 export const LoadingContext = createContext();
 
