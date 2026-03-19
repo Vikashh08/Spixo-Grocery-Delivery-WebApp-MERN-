@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Navbar from "./Components/Navbar";
+import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
 import Cart from "./pages/Cart";
@@ -15,8 +15,8 @@ import OrderSuccess from "./pages/OrderSuccess";
 import Contact from "./pages/Contact";
 import MySupport from "./pages/MySupport";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import Loader from "./Components/Loader";
-import LoadingBar from "./components/LoadingBar.jsx";
+import Loader from "./components/Loader";
+import LoadingBar from "./components/LoadingBar";
 import { setProgressBar } from "./api/api";
 import { Toaster } from "react-hot-toast";
 import { SettingsProvider } from "./context/SettingsContext";
