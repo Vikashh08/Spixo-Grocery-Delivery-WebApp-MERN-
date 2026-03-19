@@ -63,7 +63,7 @@ export default defineConfig({
       output: {
         manualChunks: {
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-ui': ['react-icons', 'react-hot-toast']
+          'vendor-ui': ['react-icons']
         }
       }
     }
