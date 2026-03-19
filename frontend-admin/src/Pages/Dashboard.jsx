@@ -166,7 +166,8 @@ function Dashboard() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
               { label: "New Order", icon: <AiOutlinePlusCircle size={28}/>, color: "bg-indigo-600", path: "/orders", desc: "Create direct order" },
-              { label: "Add Product", icon: <AiOutlineShoppingCart size={28}/>, color: "bg-emerald-600", path: "/add-product", desc: "Update inventory" },
+              { label: "Add Product", icon: <AiOutlineShoppingCart size={28}/>, color: "bg-emerald-600", path: "/add-product", desc: "Add new item" },
+              { label: "Manage Products", icon: <AiOutlineOrderedList size={28}/>, color: "bg-blue-600", path: "/products", desc: "Edit inventory" },
               { label: "Manage Fleet", icon: <AiOutlineTeam size={28}/>, color: "bg-amber-500", path: "/manage-delivery", desc: "Assign partners" },
               { label: "User Database", icon: <AiOutlineShop size={28}/>, color: "bg-stone-900", path: "/users", desc: "Customer records" },
             ].map((item, idx) => (

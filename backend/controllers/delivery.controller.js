@@ -77,7 +77,7 @@ export const getAssignedOrders = async (req, res) => {
     const orders = await Order.find({
       deliveryPartnerId: req.deliveryId,
       status: { $in: ["ASSIGNED", "PICKED", "ON_THE_WAY"] }
-    }).sort({ createdAt: -1 });
+    }).populate("userId", "name phone address").sort({ createdAt: -1 });
 
     res.json(orders);
   } catch {
@@ -91,7 +91,7 @@ export const getOrderHistory = async (req, res) => {
     const orders = await Order.find({
       deliveryPartnerId: req.deliveryId,
       status: "DELIVERED"
-    }).sort({ deliveredAt: -1 });
+    }).populate("userId", "name phone address").sort({ deliveredAt: -1 });
 
     res.json(orders);
   } catch {
