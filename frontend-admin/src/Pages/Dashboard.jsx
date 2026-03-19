@@ -189,7 +189,7 @@ function Dashboard() {
                 {[
                   { label: "New Order", icon: <AiOutlinePlusCircle size={28}/>, color: "bg-indigo-600", path: "/orders", desc: "Direct order" },
                   { label: "Product", icon: <AiOutlineShoppingCart size={28}/>, color: "bg-emerald-600", path: "/add-product", desc: "Add item" },
-                  { label: "Inventory", icon: <AiOutlineOrderedList size={28}/>, color: "bg-blue-600", path: "/products", desc: "Edit items" },
+                  { label: "Edit Items", icon: <AiOutlineOrderedList size={28}/>, color: "bg-blue-600", path: "/products", desc: "Manage Catalog" },
                   { label: "Fleet", icon: <AiOutlineTeam size={28}/>, color: "bg-amber-500", path: "/manage-delivery", desc: "Staffing" },
                   { label: "Users", icon: <AiOutlineShop size={28}/>, color: "bg-stone-900", path: "/users", desc: "Directory" },
                 ].map((item, idx) => (

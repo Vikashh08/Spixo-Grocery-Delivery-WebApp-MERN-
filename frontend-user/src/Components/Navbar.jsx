@@ -31,6 +31,7 @@ function Navbar() {
     { path: "/", label: "Home" },
     { path: "/products", label: "Shop" },
     { path: "/orders", label: "Orders" },
+    { path: "/contact", label: "Support" },
   ];
 
   return (

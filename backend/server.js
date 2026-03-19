@@ -11,6 +11,7 @@ import productRoutes from "./routes/product.route.js";
 import orderRoutes from "./routes/order.routes.js";
 import deliveryRoutes from "./routes/delivery.routes.js";
 import userRoutes from "./routes/user.routes.js";
+import contactRoutes from "./routes/contact.routes.js";
 
 dotenv.config();
 const app = express();
@@ -45,6 +46,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/delivery", deliveryRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/contact", contactRoutes);
 
 // Health check
 app.get("/", (req, res) => res.json({ message: "Spixo API running ✅" }));
