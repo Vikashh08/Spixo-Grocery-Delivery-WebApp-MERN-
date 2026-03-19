@@ -21,7 +21,7 @@ const allowedOrigins = [
   "http://localhost:5175",
   "https://spixouser.netlify.app",
   "https://spixoadmin.netlify.app",
-  "https://spixodeliverys.netlify.app"
+  "https://spixodeliveries.netlify.app"
 ];
 
 export const io = new Server(server, {
