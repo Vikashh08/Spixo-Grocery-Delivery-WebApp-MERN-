@@ -13,7 +13,8 @@ import {
   AiOutlineThunderbolt,
   AiOutlineShop,
   AiOutlineArrowUp,
-  AiOutlineArrowDown
+  AiOutlineArrowDown,
+  AiOutlineMessage
 } from "react-icons/ai";
 import { 
   AreaChart, 
