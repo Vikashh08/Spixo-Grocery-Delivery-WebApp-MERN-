@@ -1,8 +1,7 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import DeliveryLogin from "./Pages/DeliveryLogin";
-
-import DeliveryOrders from "./Pages/DeliveryOrders";
-
+import { useState, useEffect } from "react";
+import LoadingBar from "./components/LoadingBar";
+import api, { setProgressBar } from "./api/api";
+import { Toaster } from "react-hot-toast";
 
 // This component checks for the token before allowing access
 const ProtectedFleetRoute = ({ children }) => {
@@ -17,22 +16,32 @@ const ProtectedFleetRoute = ({ children }) => {
 };
 
 function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<DeliveryLogin />} />
-      
-      <Route 
-        path="/orders" 
-        element={
-          <ProtectedFleetRoute>
-            <DeliveryOrders />
-          </ProtectedFleetRoute>
-        } 
-      />
+  const [loadingProgress, setLoadingProgress] = useState(0);
 
-      {/* Catch-all: Redirect unknown paths to login */}
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+  useEffect(() => {
+    setProgressBar(setLoadingProgress);
+  }, []);
+
+  return (
+    <>
+      <LoadingBar progress={loadingProgress} />
+      <Toaster position="top-right" />
+      <Routes>
+        <Route path="/" element={<DeliveryLogin />} />
+        
+        <Route 
+          path="/orders" 
+          element={
+            <ProtectedFleetRoute>
+              <DeliveryOrders />
+            </ProtectedFleetRoute>
+          } 
+        />
+
+        {/* Catch-all: Redirect unknown paths to login */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
   );
 }
 

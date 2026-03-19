@@ -14,6 +14,8 @@ import Register from "./pages/Register";
 import OrderSuccess from "./pages/OrderSuccess";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Loader from "./Components/Loader";
+import LoadingBar from "./components/LoadingBar";
+import { setProgressBar } from "./api/api";
 import { Toaster } from "react-hot-toast";
 import { SettingsProvider } from "./context/SettingsContext";
 
@@ -23,7 +25,12 @@ const NO_NAVBAR_ROUTES = ["/login", "/register", "/forgot-password", "/reset-pas
 function App() {
   const location = useLocation();
   const [isPageLoading, setIsPageLoading] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
   const showNavbar = !NO_NAVBAR_ROUTES.some(route => location.pathname.startsWith(route));
+
+  useEffect(() => {
+    setProgressBar(setLoadingProgress);
+  }, []);
 
   useEffect(() => {
     // Check if the current navigation requested to skip the global loader
@@ -43,6 +50,7 @@ function App() {
 
   return (
     <SettingsProvider>
+      <LoadingBar progress={loadingProgress} />
       <Toaster position="top-center" />
       {isPageLoading && <Loader />}
       {showNavbar && <Navbar />}
