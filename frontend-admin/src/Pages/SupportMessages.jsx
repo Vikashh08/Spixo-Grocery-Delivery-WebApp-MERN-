@@ -6,7 +6,11 @@ import { useNavigate } from "react-router-dom";
 function SupportMessages() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("PENDING"); // Default to NEW (Pending)
+  const [activeCategory, setActiveCategory] = useState("All Categories");
   const navigate = useNavigate();
+
+  const categories = ["All Categories", "Order Inquiry", "Delivery Feedback", "Product Suggestion", "Technical Issue", "Business Partnership"];
 
   const fetchMessages = async () => {
     try {
@@ -65,6 +69,14 @@ function SupportMessages() {
     document.body.removeChild(link);
   };
 
+  const filteredMessages = messages.filter(msg => {
+    const statusMatch = activeTab === "ALL" || msg.status === activeTab;
+    const categoryMatch = activeCategory === "All Categories" || msg.reason === activeCategory;
+    return statusMatch && categoryMatch;
+  });
+
+  const getCount = (status) => messages.filter(m => m.status === status).length;
+
   return (
     <div className="bg-[#F8F9FB] min-h-screen font-sans p-6 md:p-12">
       <div className="max-w-6xl mx-auto">
@@ -74,17 +86,60 @@ function SupportMessages() {
 
         <header className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <h1 className="text-4xl font-black text-stone-900 tracking-tight mb-2">Support Inquiries</h1>
-            <p className="text-stone-400 font-bold text-xs uppercase tracking-widest">Management Console</p>
+            <h1 className="text-4xl font-black text-stone-900 tracking-tight mb-2">Support Hub</h1>
+            <p className="text-stone-400 font-bold text-xs uppercase tracking-widest">Inquiry Triage & Management</p>
           </div>
           
           <button 
             onClick={downloadCSV}
-            className="bg-stone-900 text-white px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 transition-all shadow-xl shadow-stone-900/10 active:scale-95"
+            className="bg-stone-900 text-white px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 transition-all shadow-xl shadow-stone-900/10"
           >
-            Download CSV Export
+            Export Data
           </button>
         </header>
+
+        {/* Filter Navigation */}
+        <div className="mb-10 space-y-6">
+          <div className="flex flex-wrap items-center gap-2 bg-white p-2 rounded-[1.5rem] border border-stone-100 shadow-sm inline-flex">
+            {[
+              { id: 'PENDING', label: 'New Inquiries', count: getCount('PENDING') },
+              { id: 'RESOLVED', label: 'Resolved', count: getCount('RESOLVED') },
+              { id: 'SPAM', label: 'Spam/Flagged', count: getCount('SPAM') },
+              { id: 'ALL', label: 'All History', count: messages.length }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3 ${
+                  activeTab === tab.id
+                    ? 'bg-stone-900 text-white shadow-lg' 
+                    : 'text-stone-400 hover:text-stone-900 hover:bg-stone-50'
+                }`}
+              >
+                {tab.label}
+                <span className={`px-2 py-0.5 rounded-md text-[9px] ${
+                   activeTab === tab.id ? 'bg-white/20 text-white' : 'bg-stone-50 text-stone-400'
+                }`}>{tab.count}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+             {categories.map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-widest border transition-all ${
+                     activeCategory === cat 
+                     ? 'bg-indigo-50 border-indigo-200 text-indigo-600' 
+                     : 'bg-white border-stone-100 text-stone-400 hover:border-stone-200'
+                  }`}
+                >
+                   {cat}
+                </button>
+             ))}
+          </div>
+        </div>
 
         {loading ? (
           <div className="space-y-4">
@@ -92,7 +147,7 @@ function SupportMessages() {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6">
-            {messages.map((msg) => (
+            {filteredMessages.map((msg) => (
               <div key={msg._id} className="bg-white rounded-[2.5rem] p-8 shadow-sm border border-stone-100 hover:shadow-xl transition-all group relative overflow-hidden">
                 <div className={`absolute top-0 right-0 w-32 h-32 opacity-[0.03] -mr-8 -mt-8 rotate-12 group-hover:scale-125 transition-transform duration-700`}>
                    <AiOutlineMail size={120} />
@@ -127,7 +182,7 @@ function SupportMessages() {
 
                   <div className="flex md:flex-cols gap-3 justify-end items-center">
                     {msg.status === 'PENDING' && (
-                      <>
+                      <div className="flex items-center gap-3">
                         <button 
                           onClick={() => updateStatus(msg._id, 'RESOLVED')}
                           className="flex items-center justify-center gap-2 px-6 py-4 bg-emerald-500 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-600 transition-all active:scale-95 shadow-lg shadow-emerald-100"
@@ -140,7 +195,7 @@ function SupportMessages() {
                         >
                           <AiOutlineFlag size={16} /> Mark Spam
                         </button>
-                      </>
+                      </div>
                     )}
                     {msg.status !== 'PENDING' && (
                        <div className="flex items-center gap-4">
@@ -158,9 +213,9 @@ function SupportMessages() {
                 </div>
               </div>
             ))}
-            {messages.length === 0 && (
+            {filteredMessages.length === 0 && (
               <div className="text-center py-32 bg-white rounded-[3rem] border-2 border-dashed border-stone-100">
-                 <p className="text-stone-300 font-bold uppercase tracking-widest text-sm italic">"All clear. No pending inquiries."</p>
+                 <p className="text-stone-300 font-bold uppercase tracking-widest text-sm italic">"No messages found in this category."</p>
               </div>
             )}
           </div>
