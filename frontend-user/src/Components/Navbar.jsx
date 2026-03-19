@@ -45,8 +45,8 @@ function Navbar() {
         {/* Logo Section */}
         <div className="flex items-center gap-8">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 bg-stone-900 rounded-2xl flex items-center justify-center group-hover:bg-green-500 transition-all duration-500 shadow-xl shadow-stone-900/10">
-              <span className="text-white font-black text-lg">S</span>
+            <div className="w-10 h-10 bg-white border border-stone-100 rounded-2xl flex items-center justify-center group-hover:bg-green-50 transition-all duration-500 shadow-xl shadow-stone-900/10 overflow-hidden">
+              <img src="/logo.ico" alt="S" className="w-full h-full object-contain" />
             </div>
             <div className="flex flex-col">
               <span className={`text-xl font-serif font-bold tracking-tight transition-colors ${isScrolled || location.pathname !== "/" ? "text-stone-900" : "text-white"}`}>Spixo</span>

@@ -84,7 +84,9 @@ function DeliveryOrders() {
     <div className="bg-background min-h-screen pb-28 font-sans">
       {/* Header */}
       <header className="p-6 flex justify-between items-center transition-all">
-        <div className="animate-slide-up">
+        <div className="flex items-center gap-4 animate-slide-up">
+          <img src="/logo.ico" alt="Spixo" className="w-10 h-10 object-contain rounded-xl shadow-sm border border-slate-100" />
+          <div>
           <h1 className="text-2xl font-bold text-slate-900">
             {activeTab === "home" && `Hey, ${partner?.name?.split(" ")[0]}! 👋`}
             {activeTab === "tasks" && "Active Tasks"}

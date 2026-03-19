@@ -60,7 +60,7 @@ function Login() {
           {error && (
             <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-2xl flex items-center gap-3 border border-red-100 animate-shake">
               <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-ping shrink-0" />
-              <p className="text-[11px] font-black uppercase tracking-widest">{error}</p>
+              <p className="text-[11px] font-black uppercase tracking-widest">Admin keys rejected. Security protocol active.</p>
             </div>
           )}
 

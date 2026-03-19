@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import LoadingBar from "./components/LoadingBar";
 import api, { setProgressBar } from "./api/api";
 import { Toaster } from "react-hot-toast";
+import DeliveryLogin from "./Pages/DeliveryLogin";
+import DeliveryOrders from "./Pages/DeliveryOrders";
 
 // This component checks for the token before allowing access
 const ProtectedFleetRoute = ({ children }) => {

@@ -30,7 +30,8 @@ function DeliveryLogin() {
       <div className="w-full max-w-md">
         <form onSubmit={handleLogin} className="bg-white rounded-[3rem] p-10 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
-          <div className="text-center mb-10">
+          <div className="text-center mb-10 flex flex-col items-center">
+            <img src="/logo.ico" alt="Spixo" className="w-16 h-16 mb-4 drop-shadow-xl" />
             <h2 className="text-3xl font-serif font-bold text-stone-800 tracking-tight">Fleet Access</h2>
             <p className="text-stone-400 mt-2 text-[10px] font-bold uppercase tracking-widest">Spixo Delivery Network</p>
           </div>
@@ -38,7 +39,7 @@ function DeliveryLogin() {
           {error && (
             <div className="mb-6 p-4 bg-rose-50 text-rose-600 rounded-2xl flex items-center gap-3 border border-rose-100 animate-shake">
               <div className="w-1.5 h-1.5 bg-rose-500 rounded-full animate-ping shrink-0" />
-              <p className="text-[11px] font-black uppercase tracking-widest">{error}</p>
+              <p className="text-[11px] font-black uppercase tracking-widest">Shift denied. Key mismatch in fleet database.</p>
             </div>
           )}
 

@@ -117,7 +117,7 @@ function UserLogin() {
            {error && (
              <div className="p-4 bg-rose-50 border border-rose-100 rounded-2xl flex items-center gap-3 text-rose-600 mb-6 animate-shake">
                 <AiOutlineCheckCircle className="rotate-180" size={20} />
-                <span className="text-sm font-bold">{error}</span>
+                <span className="text-sm font-bold">Authentication failed. Grab a fresh set of credentials.</span>
              </div>
            )}
 
