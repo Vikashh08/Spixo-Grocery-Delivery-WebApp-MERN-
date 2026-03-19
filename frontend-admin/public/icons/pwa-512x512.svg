@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Ultra-Compatible Admin Logo -->
+  <rect width="512" height="512" rx="80" fill="#111827" />
+  
+  <!-- Bold White Building + Cart Symbol (No Filters) -->
+  <g transform="translate(100, 100) scale(0.6)">
+    <!-- Main House Structure -->
+    <path d="M256 40 L60 220 H120 V440 H392 V220 H452 L256 40 Z" fill="#ffffff" />
+    <!-- Spixo Grocery Cart Detail (Cutout effect) -->
+    <path d="M200 300 H312 L300 360 H212 L200 300 Z" fill="#111827" />
+    <circle cx="225" cy="400" r="16" fill="#111827" />
+    <circle cx="287" cy="400" r="16" fill="#111827" />
+    
+    <!-- Chimney (Spixo Green Accent) -->
+    <rect x="330" y="100" width="50" height="90" fill="#2cce7d" rx="10" />
+  </g>
+</svg>

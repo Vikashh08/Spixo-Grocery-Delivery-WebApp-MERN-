@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spixo Admin - Offline</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f8fafc;
+            color: #1e293b;
+            text-align: center;
+        }
+        .container {
+            padding: 2rem;
+            max-width: 400px;
+        }
+        svg {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 2rem;
+            color: #111827;
+        }
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        p {
+            color: #64748b;
+            line-height: 1.5;
+            margin-bottom: 2rem;
+        }
+        button {
+            background-color: #111827;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #1f2937;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+        </svg>
+        <h1>Dashboard Offline</h1>
+        <p>Your management console requires an internet connection. Please check your network and refresh.</p>
+        <button onclick="window.location.reload()">Refresh Dashboard</button>
+    </div>
+</body>
+</html>

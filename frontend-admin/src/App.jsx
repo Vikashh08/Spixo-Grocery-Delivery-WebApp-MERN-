@@ -1,19 +1,20 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import Login from "./Pages/Login";
-import Dashboard from "./Pages/Dashboard";
-import ProtectedRoute from "./Route/ProtectedRoute";
-import AddProduct from "./Pages/AddProduct";
-import ManageProducts from "./Pages/ManageProducts";
-import Orders from "./Pages/Orders";
-import AddDelivery from "./Pages/AddDelivery";
-import ManageDelivery from "./Pages/ManageDelivery";
-import SupportMessages from "./Pages/SupportMessages";
-import Settings from "./Pages/Settings";
-import ManageUsers from "./Pages/ManageUsers";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import AddProduct from "./pages/AddProduct";
+import ManageProducts from "./pages/ManageProducts";
+import Orders from "./pages/Orders";
+import AddDelivery from "./pages/AddDelivery";
+import ManageDelivery from "./pages/ManageDelivery";
+import SupportMessages from "./pages/SupportMessages";
+import Settings from "./pages/Settings";
+import ManageUsers from "./pages/ManageUsers";
 import { createContext, useContext, useState, useEffect } from "react";
-import LoadingBar from "./Components/LoadingBar";
+import LoadingBar from "./components/LoadingBar";
 import api, { setProgressBar } from "./api/api";
+import Navbar from "./components/Navbar";
 
 export const LoadingContext = createContext();
 
