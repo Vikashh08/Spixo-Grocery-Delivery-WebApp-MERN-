@@ -112,7 +112,7 @@ function Dashboard() {
       {/* Top Navigation */}
       <nav className="bg-white border-b border-stone-100 px-6 py-4 sticky top-0 z-50 flex justify-between items-center shadow-sm">
         <div className="flex items-center gap-4">
-          <div className="bg-stone-900 text-white w-10 h-10 rounded-xl flex items-center justify-center font-black text-xl italic">S</div>
+          <img src="/logo.ico" alt="Spixo" className="w-10 h-10 object-contain rounded-xl shadow-lg border border-stone-100" />
           <div>
             <h1 className="text-lg font-black text-stone-900 leading-none">Spixo Admin</h1>
             <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest mt-1">Console v2.0</p>

@@ -47,7 +47,8 @@ function Login() {
           {/* Decorative Admin Accent */}
           <div className="absolute top-0 left-0 w-full h-2 bg-stone-800"></div>
 
-          <div className="text-center mb-10">
+          <div className="text-center mb-10 flex flex-col items-center">
+            <img src="/logo.ico" alt="Spixo" className="w-16 h-16 mb-4 drop-shadow-xl" />
             <h2 className="text-3xl font-serif font-bold text-stone-800 tracking-tight">
               Spixo Control
             </h2>

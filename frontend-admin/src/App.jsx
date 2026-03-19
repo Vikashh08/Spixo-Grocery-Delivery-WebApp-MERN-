@@ -10,25 +10,39 @@ import AddDelivery from "./Pages/AddDelivery";
 import ManageDelivery from "./Pages/ManageDelivery";
 import Settings from "./Pages/Settings";
 import ManageUsers from "./Pages/ManageUsers";
+import { createContext, useContext, useState, useEffect } from "react";
+import LoadingBar from "./Components/LoadingBar";
+import api, { setProgressBar } from "./api/api";
+
+export const LoadingContext = createContext();
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Toaster position="top-right" />
-      <Routes>
-        <Route path="/login" element={<Login />} />
+  const [loadingProgress, setLoadingProgress] = useState(0);
 
-        {/* Management Suite */}
-        <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-        <Route path="/products" element={<ProtectedRoute><ManageProducts /></ProtectedRoute>} />
-        <Route path="/add-product" element={<ProtectedRoute><AddProduct /></ProtectedRoute>} />
-        <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
-        <Route path="/add-delivery" element={<ProtectedRoute><AddDelivery /></ProtectedRoute>} />
-        <Route path="/manage-delivery" element={<ProtectedRoute><ManageDelivery /></ProtectedRoute>} />
-        <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-        <Route path="/users" element={<ProtectedRoute><ManageUsers /></ProtectedRoute>} />
-      </Routes>
-    </BrowserRouter>
+  useEffect(() => {
+    setProgressBar(setLoadingProgress);
+  }, []);
+
+  return (
+    <LoadingContext.Provider value={{ setLoadingProgress }}>
+      <LoadingBar progress={loadingProgress} />
+      <BrowserRouter>
+        <Toaster position="top-right" />
+        <Routes>
+          <Route path="/login" element={<Login />} />
+
+          {/* Management Suite */}
+          <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/products" element={<ProtectedRoute><ManageProducts /></ProtectedRoute>} />
+          <Route path="/add-product" element={<ProtectedRoute><AddProduct /></ProtectedRoute>} />
+          <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
+          <Route path="/add-delivery" element={<ProtectedRoute><AddDelivery /></ProtectedRoute>} />
+          <Route path="/manage-delivery" element={<ProtectedRoute><ManageDelivery /></ProtectedRoute>} />
+          <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+          <Route path="/users" element={<ProtectedRoute><ManageUsers /></ProtectedRoute>} />
+        </Routes>
+      </BrowserRouter>
+    </LoadingContext.Provider>
   );
 }
 
