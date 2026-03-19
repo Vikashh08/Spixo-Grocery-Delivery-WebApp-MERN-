@@ -97,7 +97,8 @@ function DeliveryOrders() {
             {partner?.isActive ? "● Online & Active" : "○ Offline"}
           </p>
         </div>
-        <button 
+      </div>
+      <button 
           onClick={handleLogout}
           className="w-10 h-10 bg-white shadow-sm border border-slate-100 rounded-2xl flex items-center justify-center text-slate-400 hover:text-red-500 transition-all active:scale-95"
         >
