@@ -94,49 +94,45 @@ function ManageUsers() {
              <p className="text-stone-300 font-serif text-xl italic">"No users found."</p>
           </div>
         ) : (
-          <div className="bg-white border border-stone-100 rounded-[2.5rem] overflow-hidden shadow-sm">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="bg-stone-50/50">
-                  <th className="px-8 py-5 text-stone-400 font-bold uppercase tracking-wider text-[10px]">Customer</th>
-                  <th className="px-8 py-5 text-stone-400 font-bold uppercase tracking-wider text-[10px]">Contact Info</th>
-                  <th className="px-8 py-5 text-stone-400 font-bold uppercase tracking-wider text-[10px]">Joined Date</th>
-                  <th className="px-8 py-5 text-stone-400 font-bold uppercase tracking-wider text-[10px] text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.map((user) => (
-                  <tr key={user._id} className="border-t border-stone-50 hover:bg-stone-50/50 transition-colors">
-                    <td className="px-8 py-5">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-stone-900 text-white rounded-xl flex items-center justify-center font-black text-sm">
-                          {user.name[0]}
-                        </div>
-                        <div>
-                          <p className="font-bold text-stone-800 text-sm">{user.name}</p>
-                          <p className="text-[10px] text-stone-400 font-bold uppercase tracking-tighter">{user.role}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-8 py-5">
-                      <p className="text-xs font-bold text-stone-600">{user.email}</p>
-                      <p className="text-[10px] text-stone-400 font-medium">{user.phone || "No phone"}</p>
-                    </td>
-                    <td className="px-8 py-5 text-xs font-bold text-stone-500">
-                      {new Date(user.createdAt).toLocaleDateString()}
-                    </td>
-                    <td className="px-8 py-5 text-right">
-                       <button
-                         onClick={() => fetchUserOrders(user)}
-                         className="bg-stone-900 text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-xl hover:bg-stone-800 transition-all active:scale-95 shadow-lg shadow-stone-900/10"
-                       >
-                         View History
-                       </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filtered.map((user) => (
+              <div 
+                key={user._id} 
+                className="bg-white border border-stone-100 rounded-[2.5rem] p-6 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden flex flex-col"
+              >
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-14 h-14 bg-stone-900 text-white rounded-2xl flex items-center justify-center font-black text-xl shadow-lg shadow-stone-900/10 shrink-0">
+                    {user.name[0]}
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="font-bold text-stone-800 text-lg leading-tight truncate">{user.name}</h3>
+                    <p className="text-[10px] text-green-500 font-black uppercase tracking-widest mt-1">{user.role}</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3 mb-8 bg-stone-50/50 p-5 rounded-3xl border border-stone-50 flex-1">
+                   <div>
+                      <p className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1">Email Address</p>
+                      <p className="text-xs font-bold text-stone-600 truncate">{user.email}</p>
+                   </div>
+                   <div>
+                      <p className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1">Contact Phone</p>
+                      <p className="text-xs font-bold text-stone-600">{user.phone || "Not provided"}</p>
+                   </div>
+                   <div>
+                      <p className="text-[9px] font-black text-stone-400 uppercase tracking-widest mb-1">Member Since</p>
+                      <p className="text-xs font-bold text-stone-500">{new Date(user.createdAt).toLocaleDateString("en-IN", { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                   </div>
+                </div>
+
+                <button
+                  onClick={() => fetchUserOrders(user)}
+                  className="w-full bg-stone-900 text-white text-[11px] font-black uppercase tracking-widest py-4 rounded-2xl hover:bg-emerald-600 transition-all active:scale-95 shadow-xl shadow-stone-900/10 flex items-center justify-center gap-2"
+                >
+                  <AiOutlineShopping size={16} /> View Purchase History
+                </button>
+              </div>
+            ))}
           </div>
         )}
 
