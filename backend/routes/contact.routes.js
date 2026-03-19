@@ -45,4 +45,14 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+// DELETE /api/contact/:id - Delete message
+router.delete("/:id", async (req, res) => {
+  try {
+    await Contact.findByIdAndDelete(req.params.id);
+    res.json({ message: "Message deleted" });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to delete message" });
+  }
+});
+
 export default router;

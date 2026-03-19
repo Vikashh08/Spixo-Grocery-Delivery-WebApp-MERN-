@@ -32,6 +32,39 @@ function SupportMessages() {
     }
   };
 
+  const deleteMessage = async (id) => {
+    if (!window.confirm("Delete this inquiry permanently?")) return;
+    try {
+      await api.delete(`/contact/${id}`);
+      setMessages(messages.filter(m => m._id !== id));
+    } catch (err) {
+      console.error("Failed to delete message", err);
+    }
+  };
+
+  const downloadCSV = () => {
+    const headers = ["Name", "Email", "Reason", "Message", "Status", "Date"];
+    const rows = messages.map(m => [
+      `"${m.name}"`,
+      `"${m.email}"`,
+      `"${m.reason}"`,
+      `"${m.message.replace(/"/g, '""')}"`,
+      m.status,
+      new Date(m.createdAt).toLocaleString()
+    ]);
+
+    const csvContent = [headers, ...rows].map(e => e.join(",")).join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Spixo_SupportMessages_${new Date().toLocaleDateString()}.csv`);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="bg-[#F8F9FB] min-h-screen font-sans p-6 md:p-12">
       <div className="max-w-6xl mx-auto">
@@ -39,9 +72,18 @@ function SupportMessages() {
           <AiOutlineArrowLeft /> Back to Dashboard
         </button>
 
-        <header className="mb-12">
-          <h1 className="text-4xl font-black text-stone-900 tracking-tight mb-2">Support Inquiries</h1>
-          <p className="text-stone-400 font-bold text-xs uppercase tracking-widest">Management Console</p>
+        <header className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <h1 className="text-4xl font-black text-stone-900 tracking-tight mb-2">Support Inquiries</h1>
+            <p className="text-stone-400 font-bold text-xs uppercase tracking-widest">Management Console</p>
+          </div>
+          
+          <button 
+            onClick={downloadCSV}
+            className="bg-stone-900 text-white px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 transition-all shadow-xl shadow-stone-900/10 active:scale-95"
+          >
+            Download CSV Export
+          </button>
         </header>
 
         {loading ? (
@@ -101,7 +143,16 @@ function SupportMessages() {
                       </>
                     )}
                     {msg.status !== 'PENDING' && (
-                       <span className="text-stone-300 font-black text-[9px] uppercase tracking-widest px-4 py-2 border border-stone-100 rounded-xl">Processed</span>
+                       <div className="flex items-center gap-4">
+                          <span className="text-stone-300 font-black text-[9px] uppercase tracking-widest px-4 py-2 border border-stone-100 rounded-xl">Processed</span>
+                          <button 
+                            onClick={() => deleteMessage(msg._id)}
+                            className="p-3 bg-rose-50 text-rose-400 rounded-xl hover:bg-rose-500 hover:text-white transition-all shadow-sm"
+                            title="Delete Permanently"
+                          >
+                            <AiOutlineFlag size={14} className="rotate-45" /> 
+                          </button>
+                       </div>
                     )}
                   </div>
                 </div>
