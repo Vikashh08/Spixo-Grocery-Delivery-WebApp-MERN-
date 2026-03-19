@@ -34,9 +34,11 @@ const allowedOrigins = [
   "https://spixouser.netlify.app",
   "https://spixoadmin.netlify.app",
   "https://spixodeliveries.netlify.app",
-  "https://spixouser.vercel.app", // Added Vercel origins
-  "https://spixoadmin.vercel.app", // Added Vercel origins
-  "https://spixodeliveries.vercel.app" // Added Vercel origins
+  "https://spixodelivery.netlify.app", // Added singular
+  "https://spixouser.vercel.app",
+  "https://spixoadmin.vercel.app",
+  "https://spixodeliveries.vercel.app",
+  "https://spixodelivery.vercel.app" // Added singular
 ];
 
 export const io = new Server(server, {
